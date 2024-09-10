@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
-import Navbar from '../../shared/Navbar';
+// import Navbar from '../shared/Navbar';
 import { Link, useNavigate } from 'react-router-dom';
-import { USER_API_END_POINT } from '../../utils/constants';
+// import { USER_API_END_POINT } from '../../../../../job porta/frontend/src/utils/constants';
 import axios from "axios";
 import { useDispatch, useSelector } from 'react-redux';
 import { setLoading } from '../../redux/authSlice';
+import { USER_API_END_POINT } from '@/utils/constants';
 
 const Register = () => {
     const navigate = useNavigate();

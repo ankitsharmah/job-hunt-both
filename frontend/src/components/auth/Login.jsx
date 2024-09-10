@@ -1,10 +1,11 @@
 import React, { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom';
-import Navbar from '../../shared/Navbar';
-import { USER_API_END_POINT } from '../../utils/constants';
+// import Navbar from '../../../../../job porta/frontend/src/shared/Navbar';
+// import { USER_API_END_POINT } from '../../../../../job porta/frontend/src/utils/constants';
 import axios from 'axios';
 import { useDispatch, useSelector } from 'react-redux';
 import { setLoading, setLoggedin } from '../../redux/authSlice';
+import { USER_API_END_POINT } from '@/utils/constants';
 
 const Login = () => {
     const dispatch = useDispatch()

@@ -1,5 +1,7 @@
 import React from 'react'
 import { FaSearch } from "react-icons/fa";
+import CategoryCraousel from './CategoryCraousel';
+import LatestJobs from './LatestJobs';
 const Home = () => {
   return (
     <div className='text-center'>
@@ -26,8 +28,10 @@ const Home = () => {
 
     </div>
      
+    <CategoryCraousel/>
+    <LatestJobs />
     </div>
   )
 }
 
-export default Home
+export default Home;

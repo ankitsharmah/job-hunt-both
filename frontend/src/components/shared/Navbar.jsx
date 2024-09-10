@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import { FaRegUser } from "react-icons/fa";
 import { FiLogOut } from "react-icons/fi";
 import { useSelector } from 'react-redux';
-import { setLoggedin } from '../redux/authSlice';
+// import { setLoggedin } from '../redux/authSlice';
 const Navbar = () => {
     const [profile, setProfile] = useState(true);
     const isLoggedin=useSelector(state=>state.auth.loggedin)
