@@ -2,6 +2,7 @@ import React from 'react'
 import { FaSearch } from "react-icons/fa";
 import CategoryCraousel from './CategoryCraousel';
 import LatestJobs from './LatestJobs';
+import Footer from './shared/Footer';
 const Home = () => {
   return (
     <div className='text-center'>
@@ -30,6 +31,7 @@ const Home = () => {
      
     <CategoryCraousel/>
     <LatestJobs />
+    <Footer />
     </div>
   )
 }
