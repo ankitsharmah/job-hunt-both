@@ -57,6 +57,7 @@ const Register = () => {
                 navigate("/login");
             }
         } catch (error) {
+            console.log("thi is ")
             console.log(error);
         }
         finally{

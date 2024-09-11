@@ -4,7 +4,7 @@ import { Link, useNavigate } from 'react-router-dom';
 // import { USER_API_END_POINT } from '../../../../../job porta/frontend/src/utils/constants';
 import axios from 'axios';
 import { useDispatch, useSelector } from 'react-redux';
-import { setLoading, setLoggedin } from '../../redux/authSlice';
+import { setLoading, setLoggedin, setLoggedInUser } from '../../redux/authSlice';
 import { USER_API_END_POINT } from '@/utils/constants';
 
 const Login = () => {
@@ -43,11 +43,13 @@ const Login = () => {
             
             if(respose.data.success){
                 console.log(respose.data)
-                // alert(respose.data.message)
-                navigate("/")
+                alert(respose.data.message)
+                dispatch(setLoggedInUser(respose.data.user))
                 dispatch(setLoggedin(true))
+                navigate("/")
             }
         } catch (error) {
+            
             console.log(error)
         }
         finally{

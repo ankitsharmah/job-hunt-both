@@ -8,6 +8,8 @@ const Navbar = () => {
     const [profile, setProfile] = useState(true);
     const isLoggedin=useSelector(state=>state.auth.loggedin)
     const user=isLoggedin;
+    const image = useSelector(state=>state.auth.user);
+    console.log("this is image ",image);
 
 console.log(user)
     function handleProfile() {
@@ -39,18 +41,18 @@ console.log(user)
                     </div>):(
                         <div className='relative ' onClick={handleProfile}>
                         <img
-                            src="https://avatars.githubusercontent.com/u/132656164?s=400&u=da0534e97789ff4c6d62e24f1d3b3d57d7631ec3&v=4"
+                            src={image?.profile?.profilePhoto}
                             alt=""
-                            className='w-12 h-12 cursor-pointer rounded-full bg-contain'
+                            className='w-12 h-12 cursor-pointer  rounded-full '
                         />
 
                         <div className={`${profile ? 'hidden' : 'absolute'} bg-slate-200 w-72 right-0 translate-y-2`}>
                             <div className='bg-slate-200 absolute h-4 w-4 right-4 top-0 transform -translate-y-2 rotate-45'></div>
                             <div className='p-2 flex items-center justify-around'>
                                 <img
-                                    src="https://avatars.githubusercontent.com/u/132656164?s=400&u=da0534e97789ff4c6d62e24f1d3b3d57d7631ec3&v=4"
+                                    src={image?.profile?.profilePhoto}
                                     alt=""
-                                    className='w-12 h-12 cursor-pointer rounded-full bg-contain'
+                                    className='w-12 h-12 cursor-pointer rounded-full  '
                                 />
                                <div>
                                <h2 className='text-xl font-semibold text-stone-00'>Ankit sharma</h2>
