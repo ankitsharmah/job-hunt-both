@@ -3,7 +3,7 @@ import { applyJob, getApplicants, getAppliedJobs, updateStatus } from '../contro
 import isAuthenticated from '../middlewares/isAuthenticated.js'
 const router=express.Router();
 
-router.post('/add/:id',isAuthenticated,applyJob)
+router.get('/add/:id',isAuthenticated,applyJob)
 router.get("/get-applied-job",isAuthenticated,getAppliedJobs)
 router.get('/get-applicants/:id',getApplicants)
 router.post('/update/application/:id',isAuthenticated,updateStatus)

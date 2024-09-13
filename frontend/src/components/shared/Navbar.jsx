@@ -3,6 +3,11 @@ import { Link } from 'react-router-dom';
 import { FaRegUser } from "react-icons/fa";
 import { FiLogOut } from "react-icons/fi";
 import { useSelector } from 'react-redux';
+import useKeepLoggedIn from '@/hooks/useKeepLoggedIn';
+import useGetJobs from '@/hooks/useGetJobs';
+import { USER_API_END_POINT } from '@/utils/constants';
+import { toast } from 'sonner';
+import axios from 'axios';
 // import { setLoggedin } from '../redux/authSlice';
 const Navbar = () => {
     const [profile, setProfile] = useState(true);
@@ -10,7 +15,24 @@ const Navbar = () => {
     const user=isLoggedin;
     const image = useSelector(state=>state.auth.user);
     console.log("this is image ",image);
+    
+    useGetJobs();
+    useKeepLoggedIn();
 
+    async function logOut(){
+        console.log("called logout")
+        try {
+            const res = await axios.get(`${USER_API_END_POINT}/logout`,{withCredentials:true})
+            console.log(res)
+            toast.message(res.data.message)
+            if(res.data.success){
+                window.location.reload()
+            }
+        } catch (error) {
+            console.log(error)
+        }
+    } 
+    
 console.log(user)
     function handleProfile() {
         setProfile(prev => !prev);
@@ -46,7 +68,7 @@ console.log(user)
                             className='w-12 h-12 cursor-pointer  rounded-full '
                         />
 
-                        <div className={`${profile ? 'hidden' : 'absolute'} bg-slate-200 w-72 right-0 translate-y-2`}>
+                        <div className={`${profile ? 'hidden' : 'absolute'} z-10 bg-slate-200 w-72 right-0 translate-y-2`}>
                             <div className='bg-slate-200 absolute h-4 w-4 right-4 top-0 transform -translate-y-2 rotate-45'></div>
                             <div className='p-2 flex items-center justify-around'>
                                 <img
@@ -55,7 +77,7 @@ console.log(user)
                                     className='w-12 h-12 cursor-pointer rounded-full  '
                                 />
                                <div>
-                               <h2 className='text-xl font-semibold text-stone-00'>Ankit sharma</h2>
+                               <h2 className='text-xl font-semibold text-stone-00'>{image?.fullname}</h2>
                                 <p className='text-xs'>Lorem ipsum dolor sit amet cons</p>
                                </div>
                             </div>
@@ -64,8 +86,8 @@ console.log(user)
                                 <FaRegUser className=' text-2xl  text-slate-600'/>
                                 <Link to={"/profile"}>View Profile</Link>
                                 </button>
-                                <button className="underline flex gap-4 pl-4">
-                                <FiLogOut className='text-2xl text-slate-600'/><Link to={"/logout"}>Log Out</Link>
+                                <button className="underline flex gap-4 pl-4" onClick={()=>logOut()}>
+                                <FiLogOut className='text-2xl text-slate-600'/>Log Out
                                 </button>
                         </div>
                         </div>

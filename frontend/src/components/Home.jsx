@@ -1,9 +1,14 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { FaSearch } from "react-icons/fa";
 import CategoryCraousel from './CategoryCraousel';
 import LatestJobs from './LatestJobs';
 import Footer from './shared/Footer';
+import useGetJobs from '@/hooks/useGetJobs';
+import useKeepLoggedIn from '@/hooks/useKeepLoggedIn';
+
 const Home = () => {
+
+  useGetJobs();
   return (
     <div className='text-center'>
     <div className='flex flex-col gap-5 my-10'>

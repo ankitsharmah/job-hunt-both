@@ -46,6 +46,7 @@ const Login = () => {
                 alert(respose.data.message)
                 dispatch(setLoggedInUser(respose.data.user))
                 dispatch(setLoggedin(true))
+                localStorage.setItem("user", respose.data.user);
                 navigate("/")
             }
         } catch (error) {

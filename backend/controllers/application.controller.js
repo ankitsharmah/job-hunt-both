@@ -3,10 +3,13 @@ import { Job } from "../models/job.model.js";
 
 
 export const applyJob = async (req, res) => {
+    console.log("usr applying ")
     try {
         const userId = req.id;
+
         const jobId = req.params.id;
         if (!jobId) {
+            console.log("no job id")
             return res.status(400).json({
                 message: "Job id is required.",
                 success: false
@@ -16,9 +19,10 @@ export const applyJob = async (req, res) => {
         const existingApplication = await Applications.findOne({ job: jobId, applicant: userId });
 
         if (existingApplication) {
-            return res.status(400).json({
+            console.log("apllied")
+            return res.status(200).json({
                 message: "You have already applied for this jobs",
-                success: false
+                success: true
             });
         }
 

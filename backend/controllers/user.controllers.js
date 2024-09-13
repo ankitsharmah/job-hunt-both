@@ -117,6 +117,7 @@ export const register = async (req, res) => {
         }
     }
     export const logOut=(req,res) => {
+        console.log("logout")
 
         try {
             return res.status(200).cookie("token","",{maxAge:0}).json({
@@ -196,26 +197,31 @@ export const register = async (req, res) => {
             const file = req.file;
             console.log(req.file);
 
-            if (!file) {
-                return res.status(400).json({
-                    message: "No file uploaded.",
-                    success: false
-                });
-            }
-    
-            // Get the file data and log it
+            if (file) {
+                  // Get the file data and log it
             const fileUri = getDataUri(file);
-            
+            var cloudResponse=null;
             console.log('File URI:', fileUri.content); // Check file content before upload
             
             // Upload the file to Cloudinary
-            const cloudResponse = await cloudinary.uploader.upload(fileUri.content);
+            // const cloudResponse = await cloudinary.uploader.upload(fileUri.content);
+             cloudResponse = await cloudinary.uploader.upload(fileUri.content, {
+                // resource_type: "raw",
+                type: "upload", // Ensure this is set to 'upload' for public access
+                access_mode: "public", // Set access mode to public
+              });
+              
             console.log('Cloudinary Response:', cloudResponse);
+            }
+    
+          
     
             let skillsArray;
             if (skills) {
                 skillsArray = skills.split(",");
             }
+
+            console.log(skillsArray)
     
             const userId = req.id; // Middleware authentication
             let user = await User.findById(userId);

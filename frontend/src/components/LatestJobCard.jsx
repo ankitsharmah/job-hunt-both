@@ -4,6 +4,7 @@ import { Badge } from './ui/badge';
 
 
     const LatestJobCard = ({job}) => {
+        console.log("this is jobs : ",job)
         const navigate = useNavigate();
         return (
             <div onClick={()=> navigate(`/description/112`)} className='p-5 rounded-md shadow-xl bg-white border border-gray-100 cursor-pointer'>
