@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 // import Navbar from './shared/Navbar'
 import { Avatar, AvatarImage } from './ui/avatar'
 import { Button } from './ui/button'
@@ -7,9 +7,12 @@ import { Badge } from './ui/badge'
 import { Label } from './ui/label'
 // import AppliedJobTable from './AppliedJobTable'
 // import UpdateProfileDialog from './UpdateProfileDialog'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import AppliedJobTable from './AppliedJobTable'
 import UpdateProfileDialog from './UpdateProfileDialog'
+import axios from 'axios'
+import { APPLICATION_API_END_POINT } from '@/utils/constants'
+import { setAppliedJobs } from '@/redux/jobSlice'
 // import useGetAppliedJobs from '@/hooks/useGetAppliedJobs'
 
 // const skills = ["Html", "Css", "Javascript", "Reactjs"]
@@ -17,8 +20,28 @@ const isResume = true;
 
 const Profile = () => {
     // useGetAppliedJobs();
+    const dispatch = useDispatch();
     const [open, setOpen] = useState(false);
     const {user} = useSelector(store=>store.auth);
+    // const [applied,setApplied] = useState(user);
+    // const {appliedJobs}=useSelector(state=>state.jobs);
+
+    useEffect(()=>{
+        async function getApplied(){
+            console.log("get applied")
+                    try {
+                        const response = await axios.get(`${APPLICATION_API_END_POINT}/get-applied-job`,{withCredentials:true});
+                        // console.log("setting data ",response.data.message)
+                        if(response.data.success){
+                            // setApplied(response.data.applications)
+                            dispatch(setAppliedJobs(response.data.application                            ))
+                        }
+                } catch (error) {
+                    console.log(error)
+                }
+                 }
+                 getApplied();
+    },[dispatch])
 
     return (
         <div>

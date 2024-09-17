@@ -70,6 +70,7 @@ export const getAppliedJobs = async (req,res) => {
                 success:false
             })
         };
+        console.log("this is sending data")
         return res.status(200).json({
             application,
             success:true

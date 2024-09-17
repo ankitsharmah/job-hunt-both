@@ -1,4 +1,6 @@
 import {Company} from "../models/company.model.js";
+import cloudinary from "../utils/cloudinary.js";
+import getDataUri from "../utils/datauri.js";
 
 
 
@@ -17,9 +19,10 @@ console.log(req.id)
             let company = await Company.findOne({name:companyName});
 
             if(company){
-                return res.status(400).json({
+                return res.status(200).json({
                     message:`company ${companyName} already exists`,
-                    success:false
+                    success:false,
+                    exists:true,
                 })
             }
 
@@ -30,7 +33,7 @@ console.log(req.id)
 
 
             return res.status(201).json({
-                message:"comany created successfully",
+                message:"company created successfully",
                 company,
                 success:true
             })
@@ -96,35 +99,101 @@ export const getCompanyById=async(req,res)=>{
         }
 }
 
-export const updateCompanyById= async (req,res)=>{
+// export const updateCompanyById= async (req,res)=>{
+//     console.log("im companu called")
+//     try {
+//         const { name, description, website, location } = req.body;
+ 
+//         const file = req.file;
+//         // idhar cloudinary ayega
+     
+//         console.log("im undefinded",req.params.id)
+    
 
-            try {
-                const id = req.params.id;
-                console.log("this is id",id)
-                const file = req.file;
-                const {name,description,website,location,logo}=req.body;
-                const updated= {name,description,website,location,logo};
-                console.log("tis updated",updated)
-                const company = await Company.findByIdAndUpdate(id,updated,{new:true});
 
-                // respose = {
-                //     _id: company._id,
-                //     name: company.name,
-                //     description: company.description,
-                //     wesite: company.website,
-                //     location: company.location,
-                //     logo: company.logo
-                // }
-                // console.log("this is company",response);
+//         var logo = null;
+//         console.log(req.file);
 
-                return res.status(200).json({
-                    message:"updated company details",
-                    company,
-                    success:true
-                })
+//         if (file) {
+//               const fileUri = getDataUri(file);
+//               const cloudResponse = await cloudinary.uploader.upload(fileUri.content);
+//                logo = cloudResponse.secure_url;
+//         }
 
-            } catch (error) {
-                
-            }
 
-}
+
+//         const updateData = { name, description, website, location, logo };
+
+//         const company = await Company.findByIdAndUpdate(req.params.id, updateData, { new: true });
+
+//         if (!company) {
+//             return res.status(404).json({
+//                 message: "Company not found.",
+//                 success: false
+//             })
+//         }
+//         console.log(company)
+//         return res.status(200).json({
+            
+//             message:"Company information updated.",
+//             success:true
+//         })
+
+//     } catch (error) {
+//         console.log(error);
+//     }
+// }
+
+
+export const updateCompanyById = async (req, res) => {
+    console.log("Update company called");
+  
+    try {
+      // Extracting fields from req.body
+      const { name, description, website, location } = req.body;
+      const file = req.file;
+  
+      console.log("Request Body:", req.body); // Check if body data is logged
+      console.log("Request File:", req.file); // Check if file data is logged
+  
+      let logo = null;
+
+      const oneCompany = Company.findById(req.params.id);
+
+      logo=oneCompany.logo;
+
+  
+      if (file) {
+        const fileUri = getDataUri(file);
+        const cloudResponse = await cloudinary.uploader.upload(fileUri.content);
+        logo = cloudResponse.secure_url;
+      }
+  
+      // Prepare update data
+      const updateData = { name, description, website, location, logo };
+  
+      // Update company in database
+      
+      const company = await Company.findByIdAndUpdate(req.params.id, updateData, { new: true });
+  
+      if (!company) {
+        return res.status(404).json({
+          message: "Company not found.",
+          success: false,
+        });
+      }
+  
+      return res.status(200).json({
+        message: "Company information updated.",
+        success: true,
+        company,
+      });
+    } catch (error) {
+      console.log(error);
+      return res.status(500).json({
+        message: "Server error occurred.",
+        success: false,
+      });
+    }
+  };
+  

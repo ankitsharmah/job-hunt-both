@@ -11,8 +11,10 @@ import { APPLICATION_API_END_POINT, JOB_API_END_POINT } from '@/utils/constants'
 
 const JobDescription = () => {
     const {singleJob} = useSelector(store => store.jobs);
+
     console.log("this is sj : ",singleJob?.applications)
-    const {user} = useSelector(store=>store.auth);
+    const {loggedin,user} = useSelector(store=>store.auth);
+    console.log("im logg ",loggedin)
     const isIntiallyApplied = singleJob?.applications?.some(application => application.applicant === user?._id) || false;
     const [isApplied, setIsApplied] = useState(isIntiallyApplied);
 
@@ -62,7 +64,10 @@ const JobDescription = () => {
     },[jobId,dispatch, user?._id]);
 
     return (
-        <div className='max-w-7xl mx-auto my-10'>
+        <div>
+            {
+                !loggedin?(<div>login first</div>):(
+                    <div className='max-w-7xl mx-auto my-10'>
             <div className='flex items-center justify-between'>
                 <div>
                     <h1 className='font-bold text-xl'>{singleJob?.title}</h1>
@@ -89,6 +94,9 @@ const JobDescription = () => {
                 <h1 className='font-bold my-1'>Total Applicants: <span className='pl-4 font-normal text-gray-800'>{singleJob?.applications?.length}</span></h1>
                 <h1 className='font-bold my-1'>Posted Date: <span className='pl-4 font-normal text-gray-800'>{singleJob?.createdAt.split("T")[0]}</span></h1>
             </div>
+        </div>
+                )
+            }
         </div>
     )
 }

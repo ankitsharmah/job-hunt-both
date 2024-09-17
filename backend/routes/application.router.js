@@ -5,7 +5,7 @@ const router=express.Router();
 
 router.get('/add/:id',isAuthenticated,applyJob)
 router.get("/get-applied-job",isAuthenticated,getAppliedJobs)
-router.get('/get-applicants/:id',getApplicants)
+router.get('/get-applicants/:id',isAuthenticated,getApplicants)
 router.post('/update/application/:id',isAuthenticated,updateStatus)
 
 export default router

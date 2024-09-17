@@ -5,8 +5,25 @@ import LatestJobs from './LatestJobs';
 import Footer from './shared/Footer';
 import useGetJobs from '@/hooks/useGetJobs';
 import useKeepLoggedIn from '@/hooks/useKeepLoggedIn';
+import { useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 
 const Home = () => {
+
+
+    const {user}=useSelector(state=>state.auth);
+    const navigate=useNavigate();
+
+      useEffect(() => {
+        if(user?.role==='recruiter'){
+          console.log("hii rexcriter")
+          navigate("/admin/companies");
+        }else{
+          navigate("/");
+
+        }
+      },[user])
+
 
   useGetJobs();
   return (

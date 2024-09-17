@@ -1,39 +1,48 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { FaRegUser } from "react-icons/fa";
 import { FiLogOut } from "react-icons/fi";
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import useKeepLoggedIn from '@/hooks/useKeepLoggedIn';
 import useGetJobs from '@/hooks/useGetJobs';
 import { USER_API_END_POINT } from '@/utils/constants';
 import { toast } from 'sonner';
 import axios from 'axios';
-// import { setLoggedin } from '../redux/authSlice';
-const Navbar = () => {
-    const [profile, setProfile] = useState(true);
-    const isLoggedin=useSelector(state=>state.auth.loggedin)
-    const user=isLoggedin;
-    const image = useSelector(state=>state.auth.user);
-    console.log("this is image ",image);
-    
-    useGetJobs();
-    useKeepLoggedIn();
+import { setLoggedin, setLoggedInUser } from '@/redux/authSlice';  // Uncomment this line
 
-    async function logOut(){
-        console.log("called logout")
+const Navbar = () => {
+    useKeepLoggedIn();
+    const navigate = useNavigate();
+    const [profile, setProfile] = useState(true);
+    const dispatch = useDispatch();
+    
+    const isLoggedin = useSelector(state => state.auth.loggedin);
+    const image = useSelector(state => state.auth.user);
+
+    useGetJobs();
+
+    async function logOut() {
         try {
-            const res = await axios.get(`${USER_API_END_POINT}/logout`,{withCredentials:true})
-            console.log(res)
-            toast.message(res.data.message)
-            if(res.data.success){
-                window.location.reload()
+            const res = await axios.get(`${USER_API_END_POINT}/logout`, { withCredentials: true });
+            if (res.data.success) {
+                toast.success(res.data.message);
+                console.log("logout ji ")
+                // Update Redux state
+                dispatch(setLoggedin(false));
+                dispatch(setLoggedInUser(null));
+                
+                // Navigate to home page after logout
+                console.log("navigating ji")
+                navigate('/');
+            } else {
+                toast.error("Logout failed");
             }
         } catch (error) {
-            console.log(error)
+            console.error(error);
+            toast.error("An error occurred during logout.");
         }
-    } 
-    
-console.log(user)
+    }
+
     function handleProfile() {
         setProfile(prev => !prev);
     }
@@ -47,58 +56,70 @@ console.log(user)
 
                 <div className='flex gap-10'>
                     <ul className='flex font-medium items-center gap-5'>
-                        <li><Link to="/">Home</Link></li>
+                       {
+                        image?.role==="recruiter" ? (
+                            <>
+                            <li><Link to="/admin/companies">Home</Link></li>
+                            <li><Link to="/admin/jobs">Jobs</Link></li>
+                            </>
+                        ):(
+                            <>
+                            <li><Link to="/">Home</Link></li>
                         <li><Link to="/jobs">Jobs</Link></li>
                         <li><Link to="/browse">Browse</Link></li>
+                            </>
+                        )
+                       }
                     </ul>
 
-                   
-                   {
-                    !user?(<div className=''>
-                        <button className='mr-1  outline outline-1 outline-slate-300 px-2 py-1 rounded-md text-black hover:bg-slate-100'  ><Link to={"/login"}>Login</Link></button>
-                        <button className='bg-[#6A38C2] hover:bg-[#5b30a6] px-2 py-1 rounded-md text-white '>
-                                    <Link to={"/register"}>Register</Link>
-                                </button>
+                    {!isLoggedin ? (
+                        <div className=''>
+                            <button className='mr-1 outline outline-1 outline-slate-300 px-2 py-1 rounded-md text-black hover:bg-slate-100'>
+                                <Link to="/login">Login</Link>
+                            </button>
+                            <button className='bg-[#6A38C2] hover:bg-[#5b30a6] px-2 py-1 rounded-md text-white '>
+                                <Link to="/register">Register</Link>
+                            </button>
+                        </div>
+                    ) : (
+                        <div className='relative' onClick={handleProfile}>
+                            <img
+                                src={image?.profile?.profilePhoto}
+                                alt=""
+                                className='w-12 h-12 cursor-pointer rounded-full'
+                            />
 
-                    </div>):(
-                        <div className='relative ' onClick={handleProfile}>
-                        <img
-                            src={image?.profile?.profilePhoto}
-                            alt=""
-                            className='w-12 h-12 cursor-pointer  rounded-full '
-                        />
-
-                        <div className={`${profile ? 'hidden' : 'absolute'} z-10 bg-slate-200 w-72 right-0 translate-y-2`}>
-                            <div className='bg-slate-200 absolute h-4 w-4 right-4 top-0 transform -translate-y-2 rotate-45'></div>
-                            <div className='p-2 flex items-center justify-around'>
-                                <img
-                                    src={image?.profile?.profilePhoto}
-                                    alt=""
-                                    className='w-12 h-12 cursor-pointer rounded-full  '
-                                />
-                               <div>
-                               <h2 className='text-xl font-semibold text-stone-00'>{image?.fullname}</h2>
-                                <p className='text-xs'>Lorem ipsum dolor sit amet cons</p>
-                               </div>
+                            <div className={`${profile ? 'hidden' : 'absolute'} z-10 rounded-xl bg-slate-100 shadow-lg w-72 right-0 translate-y-2`}>
+                                <div className='bg-slate-100 absolute h-4 w-4 right-4 top-0 transform -translate-y-2 rotate-45'></div>
+                                <div className='p-2 flex items-center justify-around'>
+                                    <img
+                                        src={image?.profile?.profilePhoto}
+                                        alt=""
+                                        className='w-12 h-12 cursor-pointer rounded-full '
+                                    />
+                                    <div className='text-center w-[60%] '>
+                                        <h2 className='text-xl font-semibold text-left '>{image?.fullname}</h2>
+                                        <p className='text-sm text-left'>{image?.profile?.bio}</p>
+                                    </div>
+                                </div>
+                                <div className='flex justify-around flex-col gap-2 p-4'>
+                                   {
+                                    image && image?.role==='student' &&  (<button className="text-black font-semibold underline flex gap-4 pl-4">
+                                        <FaRegUser className='text-2xl text-black' />
+                                        <Link to="/profile">View Profile</Link>
+                                    </button>)
+                                   }
+                                    <button className="underline flex gap-4 pl-4 font-semibold text-black" onClick={logOut}>
+                                        <FiLogOut className='text-2xl text-black' />Log Out
+                                    </button>
+                                </div>
                             </div>
-                            <div className=' flex justify-around  flex-col gap-2 p-4'>
-                                <button className="underline flex gap-4 pl-4">
-                                <FaRegUser className=' text-2xl  text-slate-600'/>
-                                <Link to={"/profile"}>View Profile</Link>
-                                </button>
-                                <button className="underline flex gap-4 pl-4" onClick={()=>logOut()}>
-                                <FiLogOut className='text-2xl text-slate-600'/>Log Out
-                                </button>
                         </div>
-                        </div>
-                    </div>
-                    )
-                   }
-                 
+                    )}
                 </div>
             </div>
         </div>
     );
-}
+};
 
 export default Navbar;
