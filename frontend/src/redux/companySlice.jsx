@@ -6,7 +6,8 @@ const companySlice = createSlice({
     companies: [],   // Corrected 'companies' typo
     isLoading: false,
     searchBycompanyName:null,
-    oneCompany:null
+    oneCompany:null,
+    oneCompanyjob:[]
   },
   reducers: {
     setLoading(state, action) {
@@ -22,9 +23,12 @@ const companySlice = createSlice({
     },
     setOneCompany(state,action){
         state.oneCompany=action.payload;
+    },
+    setOneCompanyJob(state,action){
+        state.oneCompanyjob=action.payload
     }
   }
 });
 
-export const { setCompany, setLoading ,setCompanyName,setOneCompany} = companySlice.actions;
+export const { setCompany, setLoading ,setCompanyName,setOneCompany,setOneCompanyJob} = companySlice.actions;
 export default companySlice.reducer;

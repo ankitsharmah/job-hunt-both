@@ -42,7 +42,7 @@ const navigate = useNavigate()
         </TableHeader>
         <TableBody>
           {filterCompany && filterCompany.map(company => (
-            <TableRow key={company._id}>
+            <TableRow key={company._id} onClick={()=>navigate(`/admin/company/jobs/${company._id}`)} className={"cursor-pointer"}>
               <TableCell>
                 <img 
                 className='rounded-full h-16 w-16'
