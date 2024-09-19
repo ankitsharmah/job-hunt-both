@@ -17,6 +17,7 @@ const navigate = useNavigate()
 
   const [filterCompany, setFilterCompany] = useState(companies || []);
 
+  console.log("selellctd : ", companies)
   useEffect(() => {
     const filteredCompany = companies.filter(company => {
       if (!searchBycompanyName) {
@@ -42,7 +43,7 @@ const navigate = useNavigate()
         </TableHeader>
         <TableBody>
           {filterCompany && filterCompany.map(company => (
-            <TableRow key={company._id} onClick={()=>navigate(`/admin/company/jobs/${company._id}`)} className={"cursor-pointer"}>
+            <TableRow key={company._id} onClick={()=>navigate(`/admin/company/${company.name}/jobs/${company._id}`)} className={"cursor-pointer"}>
               <TableCell>
                 <img 
                 className='rounded-full h-16 w-16'

@@ -22,7 +22,7 @@ const JobDescription = () => {
     const jobId = params.id;
     const dispatch = useDispatch();
 
-    console.log("this is applied : ",isApplied)
+    console.log("this is applied : ",isApplied,jobId)
 
     const applyJobHandler = async () => {
         console.log("applyJobHandler")

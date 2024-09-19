@@ -2,14 +2,15 @@ import { MoreHorizontal } from 'lucide-react';
 import React, { useEffect, useState } from 'react';
 import CompaniesTable from './CompaniesTable';
 import { Link } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { setCompany, setCompanyName } from '@/redux/companySlice';
 import axios from 'axios';
 import { COMPANY_API_END_POINT } from '@/utils/constants';
 
 const Companies = () => {
   const dispatch = useDispatch();
-  const [name, setName] = useState("");
+  const {searchBycompanyName} = useSelector(state=>state.company);
+  const [name, setName] = useState(searchBycompanyName); 
 
   useEffect(()=>{
 

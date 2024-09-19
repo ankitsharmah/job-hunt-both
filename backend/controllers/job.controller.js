@@ -65,6 +65,7 @@ export const getJobByCompanyId=async (req,res)=>{
     }
 }
 export const getJobById = async (req, res) => {
+    console.log("job by id ",req.params.jobId)
     try {
         const jobId = req.params.jobId;
         const job = await Job.findById(jobId).populate({
@@ -162,3 +163,16 @@ export const getAllJobs = async (req, res) => {
         console.log(error);
     }
 }
+// export const updateJob= async(req,res)=>{
+
+//     try {
+
+//         const jobId= req.params.id;
+
+//         const {}
+        
+//     } catch (error) {
+        
+//     }
+
+// }

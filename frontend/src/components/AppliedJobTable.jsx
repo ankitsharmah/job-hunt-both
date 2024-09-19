@@ -2,9 +2,12 @@ import React from 'react'
 import { Table, TableBody, TableCaption, TableCell, TableHead, TableHeader, TableRow } from './ui/table'
 import { Badge } from './ui/badge'
 import { useSelector } from 'react-redux'
+import { JOB_API_END_POINT } from '@/utils/constants'
+import { useNavigate } from 'react-router-dom'
 
 const AppliedJobTable = () => {
     const {appliedJobs} = useSelector(store=>store.jobs);
+    const navigate = useNavigate();
     return (
         <div>
             <Table>
@@ -20,7 +23,7 @@ const AppliedJobTable = () => {
                 <TableBody>
                     {
                         appliedJobs.length <= 0 ? <span>You haven't applied any job yet.</span> :appliedJobs.map((appliedJob) => (
-                            <TableRow key={appliedJob._id}>
+                            <TableRow key={appliedJob._id} className={"cursor-pointer"} onClick={()=>navigate(`/description/${appliedJob.job._id}`)}> 
                                 <TableCell>{appliedJob?.createdAt?.split("T")[0]}</TableCell>
                                 <TableCell>{appliedJob.job?.title}</TableCell>
                                 <TableCell>{appliedJob.job?.company?.name}</TableCell>

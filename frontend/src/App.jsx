@@ -14,6 +14,7 @@ import Companies from './components/admin/Companies';
 import CreateCompany from './components/admin/CreateCompany';
 import UpdateCompany from './components/admin/UpdateCompany';
 import JobByCompany from './components/admin/JobByCompany';
+import EditJob from './components/admin/EditJob';
 function App() {
   return (
     <BrowserRouter>
@@ -29,7 +30,8 @@ function App() {
      <Route path='/admin/companies' element={<Companies />}/>
      <Route path='/admin/companies/create' element={<CreateCompany />}/>
      <Route path='/admin/companies/:id' element={<UpdateCompany />}/>
-     <Route path="/admin/company/jobs/:id" element={<JobByCompany /> } />
+     <Route path="/admin/company/:name/jobs/:id" element={<JobByCompany /> } />
+     <Route path="/admin/company/:name/updatejob/:id" element={<EditJob /> } />
     </Routes>
 
   </BrowserRouter>
