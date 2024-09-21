@@ -29,6 +29,27 @@ const navigate = useNavigate()
     setFilterCompany(filteredCompany);
   }, [companies, searchBycompanyName]);
 
+
+  async function deleteJob(){
+    try {
+      const res = await axios.delete(`${JOB_API_END_POINT}/delete/${jobId}`);
+
+      if(res.data.success){
+        const newJobs = jobs.filter((job)=>{
+                  if(job.id === jobId){
+                    return false;
+                  }
+                  return true;
+        })
+
+        dispatch(setJobsByCompany(newJobs));
+      }
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
+
   return (
     <div>
       <Table>
@@ -74,3 +95,4 @@ const navigate = useNavigate()
 };
 
 export default CompaniesTable;
+

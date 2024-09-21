@@ -5,21 +5,24 @@ import { useNavigate, useParams } from 'react-router-dom'
 import Job from '../Job'
 
 import { Edit2, MoreHorizontal } from 'lucide-react'
-import { useDispatch } from 'react-redux'
-import { setJobsByCompany, setSearchJobByJobTitle } from '@/redux/jobSlice'
+import { useDispatch, useSelector } from 'react-redux'
+import { setCreatingJob, setJobsByCompany, setSearchJobByJobTitle } from '@/redux/jobSlice'
 import JobByCompanyTable from './JobByCompanyTable'
 
 const JobByCompany = () => {
         const {name,id} = useParams();
         const navigate = useNavigate();
         const dispatch= useDispatch();
-        // const {id} = useParams("id");
+        const {creatingJob} = useSelector(state=>state.jobs)
+        
         console.log("this i si id",id)
         const [jobs , setJobs]=useState([]);
     useEffect(()=>{
 
             async function getJob(){
                 try {
+                  dispatch(setCreatingJob(true));
+                  
                     const res = await axios.get(`${JOB_API_END_POINT}/company/${id}`)
                     console.log("res is ",res.data.jobs)
                     if(res.data.success){
@@ -29,6 +32,10 @@ const JobByCompany = () => {
                     }
                 } catch (error) {
                     console.log(error)
+                }
+                finally{
+                  dispatch(setCreatingJob(false));
+
                 }
             }
 
@@ -51,14 +58,14 @@ const JobByCompany = () => {
             
           </h1>
          
-            <Edit2 className='w-6 h-8 font-bold  cursor-pointer' onClick={() => navigate(`/admin/companies/${jobs[0]?.company._id}`)} />
+            <Edit2 className='w-6 h-8 font-bold  cursor-pointer' onClick={() => navigate(`/admin/companies/${id}`)} />
             
 
       </div>
 
-      <div>
-        <input type="text " className='outline ' placeholder='job name' onChange={(e)=>{dispatch(setSearchJobByJobTitle(e.target.value))}}/>
-        <button className='bg-yellow-50 p-3'>
+      <div className='flex items-center justify-between h-12 '>
+        <input type="text " className='outline p-1 ' placeholder='job name' onChange={(e)=>{dispatch(setSearchJobByJobTitle(e.target.value))}}/>
+        <button className='bg-black text-white rounded-md p-2' onClick={()=>{navigate(`/admin/company/${name}/post-job/${id}`)}}>
           Create Job
         </button>
       </div>

@@ -7,9 +7,18 @@ const jobSlice = createSlice({
         singleJob:null,
         appliedJobs:[],
         jobsByCompany:[],
-        searchByJobTitle:null
+        creatingJob:false,
+        searchByJobTitle:null,
+        filterBy:null
+        
     },
     reducers:{
+        setFilterBy(state,action){
+            state.filterBy = action.payload;
+        },
+        setCreatingJob(state,action){
+            state.creatingJob=action.payload;
+        },
         setAllJobs(state,action){
             console.log(action.payload)
             state.allJobs=action.payload;
@@ -31,6 +40,6 @@ const jobSlice = createSlice({
     }
 })
 
-export const {setAllJobs,setSingleJob,setAppliedJobs,setJobsByCompany,setSearchJobByJobTitle} = jobSlice.actions
+export const {setAllJobs,setSingleJob,setFilterBy,setAppliedJobs,setJobsByCompany,setSearchJobByJobTitle,setCreatingJob} = jobSlice.actions
 
 export default jobSlice.reducer;

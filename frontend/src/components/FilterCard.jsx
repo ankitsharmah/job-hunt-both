@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react'
 import { RadioGroup, RadioGroupItem } from './ui/radio-group'
 import { Label } from './ui/label'
+import { useDispatch } from 'react-redux'
+import { setFilterBy } from '@/redux/jobSlice'
 // import { useDispatch } from 'react-redux'
 // import { setSearchedQuery } from '@/redux/jobSlice'
 // import { Label } from '@radix-ui/react-label'
@@ -8,7 +10,7 @@ import { Label } from './ui/label'
 const fitlerData = [
     {
         fitlerType: "Location",
-        array: ["Delhi NCR", "Bangalore", "Hyderabad", "Pune", "Mumbai"]
+        array: ["Delhi", "Gurgram", "Noida", "Pune", "Kolkata"]
     },
     {
         fitlerType: "Industry",
@@ -22,16 +24,20 @@ const fitlerData = [
 
 const FilterCard = () => {
     const [selectedValue, setSelectedValue] = useState('');
-    // const dispatch = useDispatch();
+    const dispatch = useDispatch();
     const changeHandler = (value) => {
         setSelectedValue(value);
+        console.log(value)
     }
     useEffect(()=>{
-        // dispatch(setSearchedQuery(selectedValue));
+        dispatch(setFilterBy(selectedValue));
     },[selectedValue]);
     return (
         <div className='w-full bg-white p-3 rounded-md'>
-            <h1 className='font-bold text-lg'>Filter Jobs</h1>
+           <div className='flex gap-2 '>
+                <h1 className='font-bold text-lg'>Filter Jobs</h1>
+                <button onClick={()=>changeHandler("")} className='bg-red-400  border-2 border-red-500 rounded-full px-1 text-white font-semibold'>Clear filter</button>
+           </div>
             <hr className='mt-3' />
             <RadioGroup value={selectedValue} onValueChange={changeHandler}>
                 {
@@ -42,9 +48,9 @@ const FilterCard = () => {
                                 data.array.map((item, idx) => {
                                     const itemId = `id${index}-${idx}`
                                     return (
-                                        <div className='flex items-center space-x-2 my-2'>
+                                        <div className='flex items-center cursor-pointer space-x-2 my-2'>
                                             <RadioGroupItem value={item} id={itemId} />
-                                            <Label htmlFor={itemId}>{item}</Label>
+                                            <Label className={"cursor-pointer"} htmlFor={itemId}>{item}</Label>
                                         </div>
                                     )
                                 })

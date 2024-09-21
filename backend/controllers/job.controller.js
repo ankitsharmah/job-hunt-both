@@ -28,7 +28,7 @@ export const postJob = async (req, res) => {
 
         return res.status(201).json({
             message: "New job created successfully.",
-            job,
+            createdjob:job,
             success: true
         });
     } catch (error) {
@@ -163,16 +163,37 @@ export const getAllJobs = async (req, res) => {
         console.log(error);
     }
 }
-// export const updateJob= async(req,res)=>{
+export const updateJob= async(req,res)=>{
 
-//     try {
+    try {
 
-//         const jobId= req.params.id;
+        const jobId= req.params.id;
 
-//         const {}
+        const {title,requirements,description,location,salary,jobType,experience,position}= req.body;
+        console.log(req.body);
+        console.log("job id : ",jobId);
+
+        const updated =await Job.findByIdAndUpdate(jobId, req.body,{ new: true });
+        console.log("updated job ",updated);
+
+        if(!updated){
+            res.status(404).json({
+                message: "Job not found",
+                success:false
+            })
+        }
+
+        res.status(200).json({
+            message: "Job updated successfully",
+            updatedJob:updated,
+            success:true
+        })
         
-//     } catch (error) {
-        
-//     }
+    } catch (error) {
+        console.log(error)
+    }
+
+}
+// export const deleteJob = (req,res)=>{
 
 // }

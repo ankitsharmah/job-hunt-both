@@ -98,7 +98,7 @@ export const getApplicants = async (req,res) => {
         };
         return res.status(200).json({
             job, 
-            succees:true
+            success:true
         });
     } catch (error) {
         console.log(error);
@@ -106,6 +106,8 @@ export const getApplicants = async (req,res) => {
 }
 
 export const updateStatus = async (req,res) => {
+
+    console.log("in update")
     try {
         const {status} = req.body;
         const applicationId = req.params.id;

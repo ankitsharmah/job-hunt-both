@@ -175,7 +175,7 @@ export const updateCompanyById = async (req, res) => {
       // Update company in database
       
       const company = await Company.findByIdAndUpdate(req.params.id, updateData, { new: true });
-  
+    console.log(company)
       if (!company) {
         return res.status(404).json({
           message: "Company not found.",
@@ -197,3 +197,25 @@ export const updateCompanyById = async (req, res) => {
     }
   };
   
+export const deleteCompanyById =async (req, res) => {
+  
+  
+      try {
+        const response = await Company.findByIdAndDelete(req.params.id);
+
+        console.log(response)
+        if(response){
+            res.status(200).json({
+                message: "deleted successfully",
+                success:true
+            })
+            res.status(400).json({
+                message: "error occured in deleting company",
+                success:false
+            })
+        }
+      } catch (error) {
+        console.log(error)
+      }
+
+}
