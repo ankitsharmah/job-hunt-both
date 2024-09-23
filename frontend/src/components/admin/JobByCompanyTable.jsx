@@ -22,7 +22,7 @@ const JobByCompanyTable = () => {
 
     const [jobId,setJobId]= useState(null);
 
-
+  
 
     useEffect(()=>{
 
@@ -70,6 +70,7 @@ const JobByCompanyTable = () => {
             <TableHead>Experience</TableHead>
             <TableHead>Openenig</TableHead>
             <TableHead>salary</TableHead>
+            <TableHead>Apllicants</TableHead>
             <TableHead className="text-right">Action</TableHead>
           </TableRow>
         </TableHeader>
@@ -85,6 +86,7 @@ const JobByCompanyTable = () => {
               <TableCell>{job.experienceLevel} years</TableCell>
               <TableCell>{job.position}</TableCell>
               <TableCell>{job.salary}lpa</TableCell>
+              <TableCell>{job.applications.length}</TableCell>
               {/* <TableCell>{new Date(job.createdAt).toLocaleDateString()}</TableCell> */}
               <TableCell className="text-right cursor-pointer">
                 <Popover>

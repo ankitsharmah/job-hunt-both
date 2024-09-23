@@ -6,6 +6,7 @@ import axios from 'axios';
 import { useDispatch, useSelector } from 'react-redux';
 import { setLoading, setLoggedin, setLoggedInUser } from '../../redux/authSlice';
 import { USER_API_END_POINT } from '@/utils/constants';
+import { toast } from 'sonner';
 
 const Login = () => {
     const dispatch = useDispatch()
@@ -43,7 +44,8 @@ const Login = () => {
             
             if(respose.data.success){
                 console.log(respose.data)
-                alert(respose.data.message)
+                // alert(respose.data.message)
+                toast.success(respose.data.message)
                 dispatch(setLoggedInUser(respose.data.user))
                 dispatch(setLoggedin(true))
                 localStorage.setItem("user", respose.data.user);

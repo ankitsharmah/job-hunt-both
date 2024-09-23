@@ -5,8 +5,10 @@ import Job from "./Job";
 import FilterCard from "./FilterCard";
 import { useSelector } from "react-redux";
 import JobDisplay from "./JobDisplay";
+import useGetJobs from "@/hooks/useGetJobs";
 
 const Jobs = () => {
+  useGetJobs();
 
 
   return (

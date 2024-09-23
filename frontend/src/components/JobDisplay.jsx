@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { useSelector } from 'react-redux'
 import Job from './Job';
+import useGetJobs from '@/hooks/useGetJobs';
 
 const JobDisplay = () => {
     const{allJobs,filterBy} = useSelector(state=>state.jobs);
@@ -16,11 +17,13 @@ const JobDisplay = () => {
           })
 
           setFilterdJob(filterd);
-        },[filterBy])
+        },[filterBy,allJobs])
+    // useGetJobs();
+
 
   return (
     <div>
-      {filterdJob.length <= 0 ? (
+      {filterdJob?.length <= 0 ? (
           <span>no jobs found </span>
         ) : (
           <div className="flex-1 overflow-y-auto pb-5 h-[88vh] ">

@@ -9,7 +9,7 @@ const Job = ({job}) => {
     const navigate = useNavigate();
 
     // const jobId = "lsekdhjgdsnfvsdkjf";
-        console.log("this is in the job : ",job._id)
+        // console.log("this is in the job : ",job._id)
     const daysAgoFunction = (mongodbTime) => {
         const createdAt = new Date(mongodbTime);
         const currentTime = new Date();
