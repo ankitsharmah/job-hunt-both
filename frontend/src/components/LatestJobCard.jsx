@@ -4,13 +4,16 @@ import { Badge } from './ui/badge';
 
 
     const LatestJobCard = ({job}) => {
-        console.log("this is jobs : ",job)
+
+        console.log("every jpb ",job)
         const navigate = useNavigate();
         return (
-            <div onClick={()=> navigate(`/description/112`)} className='p-5 rounded-md shadow-xl bg-white border border-gray-100 cursor-pointer'>
+            <div onClick={()=> navigate(`/description/${job._id}`)} className='p-5 rounded-md shadow-xl bg-white border border-gray-100 cursor-pointer'>
                 <div >
+                <img src={job.company.logo} alt="" className='rounded-full h-16 '
+                />
                     <h1 className='font-medium text-lg'>{job?.company?.name}</h1>
-                    <p className='text-sm text-gray-500'>India</p>
+                    <p className='text-sm text-gray-500'>{job.location}</p>
                 </div>
                 <div>
                     <h1 className='font-bold text-lg my-2'>{job?.title}</h1>

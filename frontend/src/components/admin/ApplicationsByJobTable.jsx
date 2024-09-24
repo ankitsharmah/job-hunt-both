@@ -9,6 +9,7 @@ import { Badge } from '../ui/badge';
 import axios from 'axios';
 import { APPLICATION_API_END_POINT } from '@/utils/constants';
 import { setApplications } from '@/redux/applicationSlice';
+import { toast } from 'sonner';
 const ApplicationsByJobTable = () => {
   const {jobname,id}=useParams()
   const { applications } = useSelector(state => state.application);
@@ -42,6 +43,7 @@ const ApplicationsByJobTable = () => {
       
           console.log(res.data)
           if (res.data.success) {
+            toast.success("updated");
             const updatedApplications = applications?.applications?.map((application) => {
               // If the application id matches the one in actions, update the status
               if (application._id === actions.jobId) {

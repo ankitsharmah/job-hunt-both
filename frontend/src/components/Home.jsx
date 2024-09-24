@@ -5,12 +5,13 @@ import LatestJobs from './LatestJobs';
 import Footer from './shared/Footer';
 import useGetJobs from '@/hooks/useGetJobs';
 import useKeepLoggedIn from '@/hooks/useKeepLoggedIn';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
+import { setSearchJobByJobTitle } from '@/redux/jobSlice';
 
 const Home = () => {
 
-
+    const dispatch = useDispatch();
     const {user}=useSelector(state=>state.auth);
     const navigate=useNavigate();
 
@@ -42,9 +43,16 @@ const Home = () => {
         <input type="text" 
         className='outline-none border-none  w-full'
             placeholder='find you  dream jobs'
+            
+            onChange={(e)=>{
+              dispatch(setSearchJobByJobTitle(e.target.value));
+            }}
+           
         />
         <button className='rounded-r-full py-3 px-3 bg-[#6A38C2]'>
-        <FaSearch className='h-5 w-5 text-white font-semibold'/>
+        <FaSearch className='h-5 w-5 text-white font-semibold'  onClick={()=>{
+              navigate("/browse")
+            }}/>
 
         </button>
     </div>
