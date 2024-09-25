@@ -17,7 +17,7 @@ const JobByCompanyTable = () => {
     const{name,id}=useParams();
     const dispatch = useDispatch();
     const jobs = useSelector(state=>state.jobs.jobsByCompany)
-    const {searchByJobTitle,creatingJob} = useSelector(state=>state.jobs)
+    const {searchByJobTitle,creatingJob,jobsByCompany} = useSelector(state=>state.jobs)
     const [filterdJob , setFilterdJob]=useState([]);
 
     const [jobId,setJobId]= useState(null);
@@ -37,7 +37,7 @@ const JobByCompanyTable = () => {
         setFilterdJob(filterdData);
 
        
-    },[jobs,searchByJobTitle])
+    },[jobs,jobsByCompany,searchByJobTitle])
 
     async function deleteJob(){
       try {

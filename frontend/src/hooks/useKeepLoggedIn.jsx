@@ -8,6 +8,7 @@ function useKeepLoggedIn() {
     const dispatch = useDispatch();
     useEffect(() => {
       const checkUserAuth = async () => {
+        console.log("checking")
         try {
           // Make a request to backend to verify user from the cookie
           const res = await axios.get(`${USER_API_END_POINT}/auth/check`, { withCredentials: true });

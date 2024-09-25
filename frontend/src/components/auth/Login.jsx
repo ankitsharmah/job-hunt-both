@@ -43,6 +43,7 @@ const Login = () => {
             if(respose.data.success){
                 // alert(respose.data.message)
                 toast.success(respose.data.message)
+                // console.log(object)
                 dispatch(setLoggedInUser(respose.data.user))
                 dispatch(setLoggedin(true))
                 localStorage.setItem("user", respose.data.user);

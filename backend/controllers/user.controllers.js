@@ -98,8 +98,9 @@ export const register = async (req, res) => {
                     role:user.role,
                     profile:user.profile
                 }
-            const token =await jwt.sign(tokenData,process.env.SECRET_KEY,{expiresIn:'1d'});
-            return res.status(200).cookie("token",token,{maxAge:1*24*60*60*1000,httpsOnly:true,sameSite:'strict'}).json({
+                const token =await jwt.sign(tokenData,process.env.SECRET_KEY,{expiresIn:'1d'});
+                console.log(token)
+            return res.status(200).cookie("token",token,{maxAge:1*24*60*60*1000,httpsOnly:true,sameSite:'none',secure:true}).json({
                 message:`welcome back ${user.fullname}`,
                 user,
                 success:true
@@ -111,8 +112,9 @@ export const register = async (req, res) => {
     export const logOut=(req,res) => {
 
         try {
-            return res.status(200).cookie("token","",{maxAge:0}).json({
+            return res.status(200).cookie("token","deleted",{maxAge:0}).json({
                 message:"successfully logedout",
+                tokenn:"deleted",
                 success:true
             })
         } catch (error) {
