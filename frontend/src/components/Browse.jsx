@@ -10,7 +10,6 @@ const Browse = () => {
       const filtered = allJobs?.filter(job => {
           // Ensure job is an object and has a title
           if (!job || typeof job !== 'object' || !job.title) {
-              console.log("Invalid job entry:", job); // Log invalid job
               return false; // Exclude invalid job entries
           }
 

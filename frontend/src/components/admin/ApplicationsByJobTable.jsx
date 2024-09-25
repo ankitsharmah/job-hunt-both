@@ -32,7 +32,6 @@ const ApplicationsByJobTable = () => {
     
       async function handleUpdateStatus(actions) {
         try {
-          console.log("in fetch ", actions);
       
           // Send the status update to the backend
           const res = await axios.post(
@@ -41,7 +40,6 @@ const ApplicationsByJobTable = () => {
             { withCredentials: true }
           );
       
-          console.log(res.data)
           if (res.data.success) {
             toast.success("updated");
             const updatedApplications = applications?.applications?.map((application) => {
@@ -52,7 +50,6 @@ const ApplicationsByJobTable = () => {
                   status: actions.status // Update the status
                 };
               }
-              console.log("matched ",application._id," ",actions.jobId)
               // Otherwise, return the original application object unchanged
               return application;
             });
@@ -60,7 +57,6 @@ const ApplicationsByJobTable = () => {
               ...applications,
               applications: updatedApplications
             }
-            console.log("this is updated aplications ",updatedJob)
             // Dispatch the updated applications to the state/store
             dispatch(setApplications(updatedJob));
           }
@@ -111,7 +107,6 @@ const ApplicationsByJobTable = () => {
                           jobId: applicant._id
                         };
                         setAction(updatedAction);
-                        console.log(updatedAction);
                         handleUpdateStatus(updatedAction);
                       }} 
                       className="flex items-center gap-2 w-full text-white px-2 py-1 rounded-md bg-green-400 cursor-pointer"
@@ -128,7 +123,6 @@ const ApplicationsByJobTable = () => {
                           jobId: applicant._id
                         };
                         setAction(updatedAction);
-                        console.log(updatedAction);
                         handleUpdateStatus(updatedAction);
                       }} 
                       className="flex items-center bg-[#f13a3a] px-2 py-1 w-[100%] rounded-md text-white gap-2 cursor-pointer"

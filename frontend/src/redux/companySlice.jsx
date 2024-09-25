@@ -11,7 +11,6 @@ const companySlice = createSlice({
   },
   reducers: {
     setLoading(state, action) {
-      console.log("setLoading called with", action.payload);
       state.isLoading = action.payload;  // Correctly setting isLoading to action's payload
     },
     setCompany(state, action) {

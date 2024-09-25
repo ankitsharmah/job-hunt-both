@@ -10,18 +10,17 @@ const JobDisplay = () => {
         const filtered = allJobs?.filter(job => {
             // Ensure job is an object and has a title
             if (!job || typeof job !== 'object' || !job.title) {
-                console.log("Invalid job entry:", job); // Log invalid job
                 return false; // Exclude invalid job entries
             }
 
-            const jobTitle = job.title.toLowerCase();
-            const location = job.location.toLowerCase();
+            const jobTitle = job?.title.toLowerCase();
+            const location = job?.location.toLowerCase() || "";
             // const searchTerm = searchByJobTitle?.toLowerCase() || '';
 
             // If neither filterBy nor searchByJobTitle is provided, return true for all jobs
             if (!filterBy ) {
             //   return jobTitle.includes(searchTerm);
-                // return true;
+                return true;
             }
               return location.includes(filterBy.toLowerCase()) ||
                       jobTitle.includes(filterBy.toLowerCase()); 

@@ -20,7 +20,6 @@ const Login = () => {
     
     const loading = useSelector(state=>state.auth.loading)
 
-    console.log(loading)
 
     function handleChange(e){
             setFormData({
@@ -34,7 +33,6 @@ const Login = () => {
 
         try {
             dispatch(setLoading(true))
-            console.log(loading)
             const respose = await axios.post(`${USER_API_END_POINT}/login`,formData, {
                 headers: {
                     "Content-Type": "application/json"
@@ -43,7 +41,6 @@ const Login = () => {
             })
             
             if(respose.data.success){
-                console.log(respose.data)
                 // alert(respose.data.message)
                 toast.success(respose.data.message)
                 dispatch(setLoggedInUser(respose.data.user))
@@ -59,7 +56,6 @@ const Login = () => {
                 dispatch(setLoading(false));
         }
 
-        console.log(formData)
     }
   return (
     <div>

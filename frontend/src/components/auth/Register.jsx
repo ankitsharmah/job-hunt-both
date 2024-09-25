@@ -57,13 +57,11 @@ const Register = () => {
                 navigate("/login");
             }
         } catch (error) {
-            console.log("thi is ")
             console.log(error);
         }
         finally{
             dispatch(setLoading(false))
         }
-        console.log('Form Data:', formData);
     };
 
     return (

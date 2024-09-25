@@ -27,7 +27,6 @@ const UpdateCompany = () => {
         const res = await axios.get(`${COMPANY_API_END_POINT}/${id}`, {
           withCredentials: true,
         });
-        console.log(res.data);
 
         if (res.data.success) {
           setCompany({
@@ -46,7 +45,6 @@ const UpdateCompany = () => {
   }, [id]);
 
   function handleChange(e) {
-    console.log(company)
     setCompany((prev) => ({
       ...prev,
       [e.target.name]: e.target.value,
@@ -134,7 +132,6 @@ const UpdateCompany = () => {
 
   const fileChangeHandler = (e) => {
     const file = e.target.files?.[0];
-    console.log(file)
     setCompany({ ...company, file })
 }
 

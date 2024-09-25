@@ -6,10 +6,8 @@ import cloudinary from "../utils/cloudinary.js";
 
 
 export const register = async (req, res) => {
-    console.log("hiii called");
     try {
         const { fullname, email, phoneNumber, password, role } = req.body;
-        console.log("in thte reqqq");
         if (!fullname || !email || !phoneNumber || !password || !role) {
             return res.status(400).json({
                 message: "Something is missing",
@@ -20,7 +18,6 @@ export const register = async (req, res) => {
         const fileUri = getDataUri(file);
         const cloudResponse = await cloudinary.uploader.upload(fileUri.content);
 
-        console.log("Checking if user already exists...");
         const user = await User.findOne({ email });
         if (user) {
             return res.status(400).json({
@@ -29,11 +26,8 @@ export const register = async (req, res) => {
             });
         }
 
-        console.log("Hashing password...");
         const hashedPassword = await bcrypt.hash(password, 10);
-        console.log("Password hashed successfully");
 
-        console.log("Creating user in the database...");
         await User.create({
             fullname,
             email,
@@ -87,9 +81,7 @@ export const register = async (req, res) => {
                     success:false
                 })
             }
-            console.log(role,user.role)
             if(role!==user.role){
-                console.log("sending")
                 return res.status(404).json({
                     message:"Account does not exists with current role",
                     success:false
@@ -117,7 +109,6 @@ export const register = async (req, res) => {
         }
     }
     export const logOut=(req,res) => {
-        console.log("logout")
 
         try {
             return res.status(200).cookie("token","",{maxAge:0}).json({
@@ -195,13 +186,12 @@ export const register = async (req, res) => {
             const { fullname, email, phoneNumber, bio, skills } = req.body;
             
             const file = req.file;
-            console.log(req.file);
 
             if (file) {
                   // Get the file data and log it
             const fileUri = getDataUri(file);
             var cloudResponse=null;
-            console.log('File URI:', fileUri.content); // Check file content before upload
+            ('File URI:', fileUri.content); // Check file content before upload
             
             // Upload the file to Cloudinary
             // const cloudResponse = await cloudinary.uploader.upload(fileUri.content);
@@ -211,7 +201,6 @@ export const register = async (req, res) => {
                 access_mode: "public", // Set access mode to public
               });
               
-            console.log('Cloudinary Response:', cloudResponse);
             }
     
           
@@ -221,7 +210,6 @@ export const register = async (req, res) => {
                 skillsArray = skills.split(",");
             }
 
-            console.log(skillsArray)
     
             const userId = req.id; // Middleware authentication
             let user = await User.findById(userId);
@@ -243,7 +231,6 @@ export const register = async (req, res) => {
             // Save the resume (from Cloudinary) to the user's profile
             if (cloudResponse) {
                 user.profile.resume = cloudResponse.secure_url; // Save the Cloudinary URL
-                console.log('Resume URL:', cloudResponse.secure_url);
                 user.profile.resumeOriginalName = file.originalname; // Save the original file name
             }
     

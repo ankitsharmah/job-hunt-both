@@ -17,7 +17,6 @@ const navigate = useNavigate()
 
   const [filterCompany, setFilterCompany] = useState(companies || []);
 
-  console.log("selellctd : ", companies)
   useEffect(() => {
     const filteredCompany = companies.filter(company => {
       if (!searchBycompanyName) {

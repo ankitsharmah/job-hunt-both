@@ -13,19 +13,15 @@ const CreateCompany = () => {
   const navigate=useNavigate()
   // Destructure companies and isLoading correctly from state
   const { companies, isLoading } = useSelector(state => state.company);
-  console.log(isLoading)
   const dispatch = useDispatch();
 
   async function handleSubmit(e) {
     e.preventDefault();
-    console.log(cName);
 
     try {
       dispatch(setLoading(true)); // Start loading
-      console.log("this is came", cName, " ", companies);
 
       const res = await axios.post(`${COMPANY_API_END_POINT}/add`, { companyName: cName }, { withCredentials: true });
-      console.log(res.data);
 
       if(res.data.exists){
         alert(`company ${cName} already exists`)
@@ -35,19 +31,11 @@ const CreateCompany = () => {
 
       if (res.data.success) {
         // Create a new array with the updated company list
-        console.log(res.data)
         const newCompanies = [...companies, cName];
 
-        console.log(newCompanies);
         dispatch(setCompany(newCompanies));  // Update the companies array in state
         
-        toast("Event has been created", {
-          description: "Sunday, December 03, 2023 at 9:00 AM",
-          action: {
-            label: "Undo",
-            onClick: () => console.log("Undo"),
-          },
-        })
+      
         
         navigate(`/admin/companies/${res.data.company._id}`);
       }

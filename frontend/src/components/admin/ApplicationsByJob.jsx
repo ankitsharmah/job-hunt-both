@@ -18,7 +18,6 @@ const ApplicationsByJob = () => {
         try {
           const res = await axios.get(`${APPLICATION_API_END_POINT}/get-applicants/${id}`,{withCredentials:true});
 
-          console.log(res.data.job)
           if(res.data.success){
     
             dispatch(setApplications(res.data.job));

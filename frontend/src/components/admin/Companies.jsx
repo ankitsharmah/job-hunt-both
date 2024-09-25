@@ -15,11 +15,9 @@ const Companies = () => {
   useEffect(()=>{
 
    async function getCompany(){
-    console.log("called ")
         try {
             const res = await axios.get(`${COMPANY_API_END_POINT}/`,{withCredentials:true})
             if(res.data.success){
-                console.log("success is data caom ",res.data.companies)
                 dispatch(setCompany(res.data.companies))
             }
     

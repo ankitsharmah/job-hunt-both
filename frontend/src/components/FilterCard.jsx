@@ -27,7 +27,6 @@ const FilterCard = () => {
     const dispatch = useDispatch();
     const changeHandler = (value) => {
         setSelectedValue(value);
-        console.log(value)
     }
     useEffect(()=>{
         dispatch(setFilterBy(selectedValue));

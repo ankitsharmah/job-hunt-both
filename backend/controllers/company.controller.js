@@ -5,7 +5,6 @@ import getDataUri from "../utils/datauri.js";
 
 
 export const saveCompany=async(req,res)=>{
-console.log(req.id)
         try {
             const{companyName}=req.body;
 
@@ -46,7 +45,6 @@ console.log(req.id)
 }
 
 export const getCompany = async (req, res) => {
-    console.log("I'm called - getCompany");
 
     try {
         const userId = req.id;
@@ -80,7 +78,6 @@ export const getCompanyById=async(req,res)=>{
 
         try {
             const id=req.params.id
-            console.log("this is id ")
                 const company = await Company.findById(id);
                 if(!company || company.length===0){
                     return res.status(404).json({
@@ -146,15 +143,12 @@ export const getCompanyById=async(req,res)=>{
 
 
 export const updateCompanyById = async (req, res) => {
-    console.log("Update company called");
   
     try {
       // Extracting fields from req.body
       const { name, description, website, location } = req.body;
       const file = req.file;
   
-      console.log("Request Body:", req.body); // Check if body data is logged
-      console.log("Request File:", req.file); // Check if file data is logged
   
       let logo = null;
 
@@ -175,7 +169,6 @@ export const updateCompanyById = async (req, res) => {
       // Update company in database
       
       const company = await Company.findByIdAndUpdate(req.params.id, updateData, { new: true });
-    console.log(company)
       if (!company) {
         return res.status(404).json({
           message: "Company not found.",
@@ -203,7 +196,6 @@ export const deleteCompanyById =async (req, res) => {
       try {
         const response = await Company.findByIdAndDelete(req.params.id);
 
-        console.log(response)
         if(response){
             res.status(200).json({
                 message: "deleted successfully",

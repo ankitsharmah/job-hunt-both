@@ -17,7 +17,6 @@ const Home = () => {
 
       useEffect(() => {
         if(user?.role==='recruiter'){
-          console.log("hii rexcriter")
           navigate("/admin/companies");
         }else{
           navigate("/");

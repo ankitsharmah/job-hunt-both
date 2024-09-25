@@ -31,7 +31,6 @@ const EditJob = () => {
         const res = await axios.get(`${JOB_API_END_POINT}/get/${id}`,{withCredentials:true});
 
         if(res.data.success){
-          console.log("this is single job ",res.data.job)
           setJob({
             title:res.data.job?.title || "",
             description:res.data.job?.description || "",
@@ -81,7 +80,6 @@ const EditJob = () => {
 
         // dispatch(setJobsByCompany(updatedJobs))
         // dispatch(setCreatingJob(false))
-        console.log("com idddddd ",res.data.updatedJob.company)
         navigate(`/admin/company/${name}/jobs/${res.data.updatedJob.company}`)
       }
       
@@ -89,7 +87,6 @@ const EditJob = () => {
       console.log(error)
     }
     // You can make an API call here with the job object
-    console.log(job);
   }
 
   return (

@@ -11,7 +11,6 @@ function useKeepLoggedIn() {
         try {
           // Make a request to backend to verify user from the cookie
           const res = await axios.get(`${USER_API_END_POINT}/auth/check`, { withCredentials: true });
-          console.log(res)
           if (res.data.success) {
             // If the user is authenticated, store the user data in Redux
             dispatch(setLoggedin(true));

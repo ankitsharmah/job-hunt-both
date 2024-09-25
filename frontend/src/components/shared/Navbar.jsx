@@ -26,13 +26,11 @@ const Navbar = () => {
             const res = await axios.get(`${USER_API_END_POINT}/logout`, { withCredentials: true });
             if (res.data.success) {
                 toast.success(res.data.message);
-                console.log("logout ji ")
                 // Update Redux state
                 dispatch(setLoggedin(false));
                 dispatch(setLoggedInUser(null));
                 
                 // Navigate to home page after logout
-                console.log("navigating ji")
                 navigate('/');
             } else {
                 toast.error("Logout failed");

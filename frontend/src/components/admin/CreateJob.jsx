@@ -18,7 +18,7 @@ const CreateJob = () => {
     salary: "",
     location: "",
     jobType: "",
-    experience: 0,
+    experience: "",
     position: 0,
     companyId: id,
   });
@@ -42,10 +42,8 @@ const CreateJob = () => {
     e.preventDefault();
 
     try {
-      console.log("creating")
       dispatch(setCreatingJob(true))
       const res = await axios.post(`${JOB_API_END_POINT}/add`,job,{withCredentials:true})
-console.log(res.data)
       if(res.data.success){
         const updatedJobs = [...jobsByCompany,res.data.createdjob];
 
@@ -60,7 +58,6 @@ console.log(res.data)
       dispatch(setCreatingJob(false))
     }
     // You can make an API call here with the job object
-    console.log(job);
   }
 
   return (

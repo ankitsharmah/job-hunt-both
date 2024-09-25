@@ -28,7 +28,6 @@ const Profile = () => {
 
     useEffect(()=>{
         async function getApplied(){
-            console.log("get applied")
                     try {
                         const response = await axios.get(`${APPLICATION_API_END_POINT}/get-applied-job`,{withCredentials:true});
                         // console.log("setting data ",response.data.message)

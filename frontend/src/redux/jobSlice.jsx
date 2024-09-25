@@ -20,14 +20,12 @@ const jobSlice = createSlice({
             state.creatingJob=action.payload;
         },
         setAllJobs(state,action){
-            console.log(action.payload)
             state.allJobs=action.payload;
         },
         setSingleJob(state,action){
             state.singleJob=action.payload;
         },
         setAppliedJobs(state,action){
-            console.log(action.payload)
             state.appliedJobs=action.payload;
         },
         setJobsByCompany(state,action){
