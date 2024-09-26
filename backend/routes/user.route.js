@@ -13,18 +13,14 @@ router.get("/logout",logOut)
 router.post('/profile/update',isAuthenticated,singleUpload,updateProfile)
 router.get('/auth/check', async(req, res) => {
     const token = req.cookies.token; // Get token from the cookie
-        console.log(token);
-        console.log("authenticate")
     if (!token) {
       return res.status(401).json({ success: false, message: 'Unauthorized' });
     }
   
     try {
       const decoded = jwt.verify(token, process.env.SECRET_KEY); // Verify token
-            console.log(decoded)
             const userId=decoded.userId;
       let user =await User.findOne({_id:userId});
-      console.log("this is user : ",user)
       if(!user){
           return res.status(404).json({
               message:"incorrect emailor password",

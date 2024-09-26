@@ -11,7 +11,6 @@ const useGetJobs = async() => {
 
                     const response = await axios.get(`${JOB_API_END_POINT}/get`,{withCredentials:true});
                     
-                    console.log("in usev ",response.data.jobs)
                     if(response.data.success){
                             dispatch(setAllJobs(response.data.jobs));
                     }

@@ -10,6 +10,8 @@ import { useNavigate, useParams } from 'react-router-dom'
 import axios from 'axios'
 import { JOB_API_END_POINT } from '@/utils/constants'
 import { setJobsByCompany } from '@/redux/jobSlice'
+import { TailSpin } from 'react-loader-spinner'
+import Loader from '../Loader'
 
 
 const JobByCompanyTable = () => {
@@ -17,7 +19,7 @@ const JobByCompanyTable = () => {
     const{name,id}=useParams();
     const dispatch = useDispatch();
     const jobs = useSelector(state=>state.jobs.jobsByCompany)
-    const {searchByJobTitle,creatingJob} = useSelector(state=>state.jobs)
+    const {searchByJobTitle,creatingJob,jobsByCompany} = useSelector(state=>state.jobs)
     const [filterdJob , setFilterdJob]=useState([]);
 
     const [jobId,setJobId]= useState(null);
@@ -37,14 +39,14 @@ const JobByCompanyTable = () => {
         setFilterdJob(filterdData);
 
        
-    },[jobs,searchByJobTitle])
+    },[jobs,jobsByCompany,searchByJobTitle])
 
     async function deleteJob(){
       try {
         const res = await axios.delete(`${JOB_API_END_POINT}/delete/${jobId}`);
 
         if(res.data.success){
-          const newJobs = jobs.filter((job)=>{
+          const newJobs = jobs?.filter((job)=>{
                     if(job.id === jobId){
                       return false;
                     }
@@ -61,7 +63,7 @@ const JobByCompanyTable = () => {
     return (
     <div>
            <Table className={"max-w-6xl mx-auto"}>
-        <TableCaption>{creatingJob ? (<h1 className='font-bold text-2xl text-center'>loading...</h1>):(<p>A list of your recent Posted Jobs</p>)}</TableCaption>
+        <TableCaption>{creatingJob ? <Loader />:(<p>A list of your recent Posted Jobs</p>)}</TableCaption>
         <TableHeader>
           <TableRow>
             <TableHead>S no.</TableHead>
@@ -76,7 +78,7 @@ const JobByCompanyTable = () => {
         </TableHeader>
         <TableBody>
           {
-            filterdJob && filterdJob.map((job,index)=>(
+           !creatingJob && filterdJob && filterdJob.map((job,index)=>(
             <TableRow key={job._id}  className={"cursor-pointer"}  >
               <TableCell>
                 {index+1}

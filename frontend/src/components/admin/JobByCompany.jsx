@@ -15,7 +15,6 @@ const JobByCompany = () => {
         const dispatch= useDispatch();
         const {creatingJob} = useSelector(state=>state.jobs)
         
-        console.log("this i si id",id)
         const [jobs , setJobs]=useState([]);
     useEffect(()=>{
 
@@ -24,11 +23,10 @@ const JobByCompany = () => {
                   dispatch(setCreatingJob(true));
                   
                     const res = await axios.get(`${JOB_API_END_POINT}/company/${id}`)
-                    console.log("res is ",res.data.jobs)
                     if(res.data.success){
-                        console.log("success")
                         setJobs(res.data.jobs);
                         dispatch(setJobsByCompany(res.data.jobs))
+                        
                     }
                 } catch (error) {
                     console.log(error)

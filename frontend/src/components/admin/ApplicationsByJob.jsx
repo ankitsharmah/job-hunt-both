@@ -4,7 +4,7 @@ import { useParams } from 'react-router-dom'
 import { APPLICATION_API_END_POINT } from '@/utils/constants';
 import axios from 'axios';
 import { useDispatch, useSelector } from 'react-redux';
-import { setApplications } from '@/redux/applicationSlice';
+import { setApplications, setLoadingApplications } from '@/redux/applicationSlice';
 
 const ApplicationsByJob = () => {
 
@@ -15,17 +15,23 @@ const ApplicationsByJob = () => {
 
     useEffect(()=>{
       async function getApplication(){
+            dispatch(setLoadingApplications(true))
+
         try {
           const res = await axios.get(`${APPLICATION_API_END_POINT}/get-applicants/${id}`,{withCredentials:true});
 
-          console.log(res.data.job)
           if(res.data.success){
     
             dispatch(setApplications(res.data.job));
+            dispatch(setLoadingApplications(false))
+
           }
 
         } catch (error) {
           console.log(error)
+        }finally{
+          dispatch(setLoadingApplications(false))
+
         }
       }
 

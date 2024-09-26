@@ -7,6 +7,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import { setLoading, setLoggedin, setLoggedInUser } from '../../redux/authSlice';
 import { USER_API_END_POINT } from '@/utils/constants';
 import { toast } from 'sonner';
+import Loader from '../Loader';
+import { TailSpin } from 'react-loader-spinner';
 
 const Login = () => {
     const dispatch = useDispatch()
@@ -20,7 +22,6 @@ const Login = () => {
     
     const loading = useSelector(state=>state.auth.loading)
 
-    console.log(loading)
 
     function handleChange(e){
             setFormData({
@@ -29,46 +30,57 @@ const Login = () => {
             })
     }
 
-   async function handleSubmit(e){
+    async function handleSubmit(e) {
         e.preventDefault();
-
+    
         try {
-            dispatch(setLoading(true))
-            console.log(loading)
-            const respose = await axios.post(`${USER_API_END_POINT}/login`,formData, {
+            dispatch(setLoading(true));
+            const response = await axios.post(`${USER_API_END_POINT}/login`, formData, {
                 headers: {
                     "Content-Type": "application/json"
                 },
                 withCredentials: true,
-            })
-            
-            if(respose.data.success){
-                console.log(respose.data)
-                // alert(respose.data.message)
-                toast.success(respose.data.message)
-                dispatch(setLoggedInUser(respose.data.user))
-                dispatch(setLoggedin(true))
-                localStorage.setItem("user", respose.data.user);
-                navigate("/")
+            });
+    
+            // console.log(response.data);
+            if (response.data.success) {
+                toast.success(response.data.message); // Using Sonner toast here
+                dispatch(setLoggedInUser(response.data.user));
+                dispatch(setLoggedin(true));
+                localStorage.setItem("user", response.data.user);
+                navigate("/");
             }
         } catch (error) {
-            
-            console.log(error)
-        }
-        finally{
-                dispatch(setLoading(false));
-        }
+            // Check for role error in the response
+            if (error.response && error.response.data.reason === "role") {
+                // alert("plesae chenage theorle")
+                toast.error("Please change the role"); // Using toast instead of alert for consistency
+            } 
+            else if(error.response && error.response.data.reason === "incorrect"){
+                toast.error("incorrect password"); // Using toast instead of alert for consistency
 
-        console.log(formData)
+            }
+            else if(error.response && error.response.data.reason === "emailorpassword"){
+                toast.error("incorrect email"); // Using toast instead of alert for consistency
+
+            }
+            else {
+                console.log(error);
+                toast.error("An error occurred during login"); // Generic error handling
+            }
+        } finally {
+            dispatch(setLoading(false));
+        }
     }
+    
   return (
-    <div>
+    <div className='w-[90%]  mx-auto '>
     {/* <Navbar /> */}
-      <div className='flex items-center justify-center max-w-7xl mx-auto'>
-      {loading ? (<div className='flex items-center justify-center w-full h-[88vh] bg-yellow-50'>
-        <h1 className='text-4xl '>loading...</h1>
+      <div className='flex items-center justify-center md:max-w-7xl w-full  mx-auto'>
+      {loading ? (<div className='flex items-center justify-center w-full h-[88vh] '>
+        <h1 className='text-4xl '><TailSpin color='black' /></h1>
       </div>):(
-        <form onSubmit={handleSubmit} className='w-1/2 border flex flex-col my-10 items-center border-gray-200 rounded-md'>
+        <form onSubmit={handleSubmit} className='md:w-1/2 border flex  w-[95%] flex-col my-10 items-center border-gray-200 rounded-md'>
            <h1 className='text-xl font-bold self-start p-6'>Login</h1>
            
             <div className="mb-2 w-11/12">
@@ -140,7 +152,7 @@ const Login = () => {
 
             <button
                 type="submit"
-                className=" self-start ml-6 my-3 bg-slate-800 text-white py-3 w-11/12 rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
+                className=" self-start ml-6 my-3 bg-[#6A38C2] text-white py-3 w-11/12 rounded-md hover:bg-[#6A38C2]   focus:outline-none focus:ring-2 focus:ring-[#6A38C2] focus:ring-offset-2"
             >
                 Login
             </button>

@@ -12,9 +12,7 @@ import { APPLICATION_API_END_POINT, JOB_API_END_POINT } from '@/utils/constants'
 const JobDescription = () => {
     const {singleJob} = useSelector(store => store.jobs);
 
-    console.log("this is sj : ",singleJob?.applications)
     const {loggedin,user} = useSelector(store=>store.auth);
-    console.log("im logg ",loggedin)
     const isIntiallyApplied = singleJob?.applications?.some(application => application.applicant === user?._id) || false;
     const [isApplied, setIsApplied] = useState(isIntiallyApplied);
 
@@ -22,16 +20,13 @@ const JobDescription = () => {
     const jobId = params.id;
     const dispatch = useDispatch();
 
-    console.log("this is applied : ",isApplied,jobId)
 
     const applyJobHandler = async () => {
-        console.log("applyJobHandler")
         try {
             const res = await axios.get(`${APPLICATION_API_END_POINT}/add/${jobId}`, {withCredentials:true});
             
             if(res.data.success){
                 setIsApplied(true); // Update the local state
-                console.log("in success")
 
                 const updatedSingleJob = {...singleJob,
                    applications:[...singleJob.applications,{applicant:user?._id}]}
@@ -47,11 +42,9 @@ const JobDescription = () => {
 
     useEffect(()=>{
         const fetchSingleJob = async () => {
-          console.log("fetching single job...");
 
             try {
                 const res = await axios.get(`${JOB_API_END_POINT}/get/${jobId}`,{withCredentials:true});
-                console.log(res.data)
                 if(res.data.success){
                     dispatch(setSingleJob(res.data.job));
                     setIsApplied(res.data.job.applications.some(application=>application.applicant === user?._id)) // Ensure the state is in sync with fetched data

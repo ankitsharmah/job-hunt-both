@@ -15,7 +15,6 @@ import { Toaster } from './ui/sonner'
 const UpdateProfileDialog = ({ open, setOpen }) => {
     const [loading, setLoading] = useState(false);
     const { user } = useSelector(store => store.auth);
-        console.log("this is user in store : ",user);
     const [input, setInput] = useState({
         fullname: user?.fullname || "",
         email: user?.email || "",
@@ -67,7 +66,6 @@ const UpdateProfileDialog = ({ open, setOpen }) => {
             setLoading(false);
         }
         setOpen(false);
-        console.log(input);
     }
 
 

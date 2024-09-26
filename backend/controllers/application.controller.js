@@ -3,13 +3,11 @@ import { Job } from "../models/job.model.js";
 
 
 export const applyJob = async (req, res) => {
-    console.log("usr applying ")
     try {
         const userId = req.id;
 
         const jobId = req.params.id;
         if (!jobId) {
-            console.log("no job id")
             return res.status(400).json({
                 message: "Job id is required.",
                 success: false
@@ -19,7 +17,6 @@ export const applyJob = async (req, res) => {
         const existingApplication = await Applications.findOne({ job: jobId, applicant: userId });
 
         if (existingApplication) {
-            console.log("apllied")
             return res.status(200).json({
                 message: "You have already applied for this jobs",
                 success: true
@@ -70,7 +67,6 @@ export const getAppliedJobs = async (req,res) => {
                 success:false
             })
         };
-        console.log("this is sending data")
         return res.status(200).json({
             application,
             success:true
@@ -107,7 +103,6 @@ export const getApplicants = async (req,res) => {
 
 export const updateStatus = async (req,res) => {
 
-    console.log("in update")
     try {
         const {status} = req.body;
         const applicationId = req.params.id;

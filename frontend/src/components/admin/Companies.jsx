@@ -3,28 +3,32 @@ import React, { useEffect, useState } from 'react';
 import CompaniesTable from './CompaniesTable';
 import { Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { setCompany, setCompanyName } from '@/redux/companySlice';
+import { setCompany, setCompanyName, setLoading } from '@/redux/companySlice';
 import axios from 'axios';
 import { COMPANY_API_END_POINT } from '@/utils/constants';
 
 const Companies = () => {
   const dispatch = useDispatch();
-  const {searchBycompanyName} = useSelector(state=>state.company);
+  const {searchBycompanyName,isLoading} = useSelector(state=>state.company);
   const [name, setName] = useState(searchBycompanyName); 
 
   useEffect(()=>{
 
    async function getCompany(){
-    console.log("called ")
+    dispatch(setLoading(true))
+
         try {
             const res = await axios.get(`${COMPANY_API_END_POINT}/`,{withCredentials:true})
             if(res.data.success){
-                console.log("success is data caom ",res.data.companies)
                 dispatch(setCompany(res.data.companies))
+                dispatch(setLoading(false))
             }
     
         } catch (error) {
             console.log(error)
+        }finally{
+          dispatch(setLoading(false))
+
         }
     }
         getCompany()

@@ -5,13 +5,16 @@ export const postJob = async (req, res) => {
     try {
         const { title, description, requirements, salary, location, jobType, experience, position, companyId } = req.body;
         const userId = req.id;
-        console.log("thi sis ",userId)
+        // if(experience === 0){
+        //     experience = 0;
+        // }
         if (!title || !description || !requirements || !salary || !location || !jobType || !experience || !position || !companyId) {
             return res.status(400).json({
                 message: "Something is missing.",
                 success: false
             });
         }
+        // console.log(companyId," ",userId)
 
         const job = await Job.create({
             title,
@@ -65,7 +68,6 @@ export const getJobByCompanyId=async (req,res)=>{
     }
 }
 export const getJobById = async (req, res) => {
-    console.log("job by id ",req.params.jobId)
     try {
         const jobId = req.params.jobId;
         const job = await Job.findById(jobId).populate({
@@ -115,7 +117,6 @@ export const getJobByCompanyName=async (req,res)=>{
     }
 }
 export const getJobPostedByAdmin=async (req,res)=>{
-    console.log("im called admin ")
     try {
         const adminId = req.id;
         const jobs = await Job.find({ created_by: adminId }).populate({
@@ -170,11 +171,8 @@ export const updateJob= async(req,res)=>{
         const jobId= req.params.id;
 
         const {title,requirements,description,location,salary,jobType,experience,position}= req.body;
-        console.log(req.body);
-        console.log("job id : ",jobId);
 
         const updated =await Job.findByIdAndUpdate(jobId, req.body,{ new: true });
-        console.log("updated job ",updated);
 
         if(!updated){
             res.status(404).json({
