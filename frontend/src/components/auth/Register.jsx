@@ -6,6 +6,7 @@ import axios from "axios";
 import { useDispatch, useSelector } from 'react-redux';
 import { setLoading } from '../../redux/authSlice';
 import { USER_API_END_POINT } from '@/utils/constants';
+import { toast } from 'sonner';
 
 const Register = () => {
     const navigate = useNavigate();
@@ -48,16 +49,24 @@ const Register = () => {
 
         try {
             dispatch(setLoading(true));
+            console.log("registering")
             const res = await axios.post(`${USER_API_END_POINT}/register`, formDataa, {
                 headers: { 'Content-Type': "multipart/form-data" },
-                withCredentials: true,
+                
             });
             if (res.data.success) {
+                console.log("success")
                 // alert("Registered successfully");
                 navigate("/login");
             }
         } catch (error) {
-            console.log(error);
+            console.log("error: " , error)
+            if(error.response && error.response.data.reason ==="exists"){
+                toast.error("user already exixts")
+            }else{
+
+                console.log(error);
+            }
         }
         finally{
             dispatch(setLoading(false))
@@ -65,14 +74,14 @@ const Register = () => {
     };
 
     return (
-        <div>
+        <div className='w-[90%] mx-auto'>
            
-            <div className='flex items-center justify-center max-w-7xl mx-auto'>
-                {loading ? (<div className='flex items-center justify-center w-full h-[88vh] bg-yellow-50'>
+            <div className='flex items-center w-full justify-center md:max-w-7xl mx-auto'>
+                {loading ? (<div className='flex items-center justify-center w-full h-[88vh] '>
                     <h1 className='text-4xl'>
                         Loading...
                     </h1>
-                </div>):(<form onSubmit={handleSubmit} className='w-1/2 border cursor-pointer flex flex-col my-10 items-center border-gray-200 rounded-md'>
+                </div>):(<form onSubmit={handleSubmit} className='w-[90%] md:w-1/2 border cursor-pointer flex flex-col my-10 items-center border-gray-200 rounded-md'>
                     <h1 className='text-xl font-bold self-start p-6'>Sign up</h1>
 
                     <div className="mb-2 w-11/12">
@@ -135,7 +144,7 @@ const Register = () => {
                         />
                     </div>
 
-                    <div className='flex justify-between w-11/12 items-center'>
+                    <div className='flex md:justify-between flex-wrap md:w-11/12 items-center'>
                         <div className='flex gap-2'>
                             <input type="radio" value="student"
                             onChange={handleChange}
@@ -156,7 +165,7 @@ const Register = () => {
 
                     <button
                         type="submit"
-                        className="self-start ml-6 my-3 bg-slate-800 text-white w-11/12 py-2 rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
+                        className="self-start ml-6 my-3 bg-[#6A38C2] text-white w-11/12 py-2 rounded-md hover:bg-[#6A38C2] focus:outline-none focus:ring-2 ffocus:ring-[#6A38C2]"
                     >
                         Register
                     </button>

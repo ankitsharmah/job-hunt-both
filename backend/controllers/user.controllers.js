@@ -14,15 +14,22 @@ export const register = async (req, res) => {
                 success: false
             });
         }
+        
         const file = req.file;
-        const fileUri = getDataUri(file);
-        const cloudResponse = await cloudinary.uploader.upload(fileUri.content);
+        var sec_url = ""; // Declare sec_url properly
+        if(file){
+            const fileUri = getDataUri(file);
+            const cloudResponse = await cloudinary.uploader.upload(fileUri.content);
+            sec_url = cloudResponse.secure_url; // Assign cloudinary secure URL to sec_url
+        }
 
         const user = await User.findOne({ email });
+        // console.log(user);
         if (user) {
             return res.status(400).json({
                 message: "User already exists with this email",
-                success: false
+                success: false,
+                reason: "exists"
             });
         }
 
@@ -34,8 +41,8 @@ export const register = async (req, res) => {
             phoneNumber,
             password: hashedPassword,
             role,
-            profile:{
-                profilePhoto:cloudResponse.secure_url,
+            profile: {
+                profilePhoto: sec_url, // Use sec_url instead of secure_url
             }
         });
         return res.status(201).json({
@@ -67,24 +74,28 @@ export const register = async (req, res) => {
 
             let user =await User.findOne({email});
             if(!user){
-                return res.status(404).json({
-                    message:"incorrect emailor password",
-                    success:false
+                return res.status(400).json({
+                    message:"incorrect email or password",
+                    success:false,
+                    reason:"emailorpassword"
+
                 })
             }
 
             const isPasswordMatch = await bcrypt.compare(password,user.password);
 
             if(!isPasswordMatch) {
-                return res.status(404).json({
+                return res.status(400).json({
                     message:"incorrect password",
-                    success:false
+                    success:false,
+                    reason:"incorrect"
                 })
             }
             if(role!==user.role){
-                return res.status(404).json({
+                return res.status(400).json({
                     message:"Account does not exists with current role",
-                    success:false
+                    success:false,
+                    reason:"role"
                 })
             };
             const tokenData={

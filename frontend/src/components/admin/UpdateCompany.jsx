@@ -13,6 +13,7 @@ const UpdateCompany = () => {
   const {isLoading} = useSelector(state=>state.company)
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const [updating,setUpdatingjob]=useState(false);
   const [company, setCompany] = useState({
     name: "",
     description: "",
@@ -21,8 +22,11 @@ const UpdateCompany = () => {
     file:null
   });
 
+  // const [isLoading, setLoading] = useState(flase);
+
   useEffect(() => {
     async function getCompany() {
+      dispatch(setLoading(true))
       try {
         const res = await axios.get(`${COMPANY_API_END_POINT}/${id}`, {
           withCredentials: true,
@@ -34,10 +38,16 @@ const UpdateCompany = () => {
             description: res.data.company.description,
             website: res.data.company.website,
             location: res.data.company.location,
+
           });
+         dispatch(setLoading(false));
+
         }
       } catch (error) {
         console.log(error);
+      }finally{
+        dispatch(setLoading(false))
+
       }
     }
 
@@ -92,7 +102,7 @@ const UpdateCompany = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
   
-    dispatch(setLoading(true));
+  setUpdatingjob(true);
     
     try {
       const formData = new FormData();
@@ -122,7 +132,7 @@ const UpdateCompany = () => {
     } catch (error) {
       console.log(error);
     } finally {
-      dispatch(setLoading(false));
+      setUpdatingjob(false);
     }
   };
   
@@ -144,7 +154,30 @@ const UpdateCompany = () => {
         <h1 className="font-semibold text-xl">Company Setup</h1>
       </div>
 
-      <form onSubmit={handleSubmit} className="flex justify-center items-center flex-wrap p-3 gap-6 mt-4">
+     {
+      isLoading ? (<div><form onSubmit={handleSubmit} className="flex justify-center items-center flex-wrap p-3 gap-6 mt-4">
+        <div className="flex flex-col h-10 bg-gray-200 rounded-md w-[45%]">
+      
+        </div>
+
+        <div className="flex flex-col h-10 bg-gray-200 rounded-md w-[45%]">
+       
+        </div>
+
+        <div className="flex flex-col h-10 bg-gray-200 rounded-md w-[45%]">
+      
+        </div>
+
+        <div className="flex flex-col h-10 bg-gray-200 rounded-md w-[45%]">
+       
+        </div>
+
+        <div className="flex flex-col h-10 bg-gray-200 rounded-md w-[45%]">
+         
+        </div>
+
+      </form>
+      </div>): <form onSubmit={handleSubmit} className="flex justify-center items-center flex-wrap p-3 gap-6 mt-4">
         <div className="flex flex-col w-[45%]">
           <label htmlFor="name" className="text-base">Company Name</label>
           <input
@@ -198,9 +231,9 @@ const UpdateCompany = () => {
           <input type="file" className="outline outline-1 rounded-md" value={company.logo} onChange={fileChangeHandler}/>
         </div>
 
-        <button type="submit" className="bg-green-400  flex justify-center items-center px-2 py-1 rounded-md text-white">
+        <button type="submit" className="bg-green-400  flex justify-center items-center px-2 py-1 place-items-end rounded-md text-white">
           {
-            isLoading?(<p>
+            updating?(<p className='flex justify-center items-center '>
               <Loader2 className='mr-2 h-5 w-5 animate-spin' />
                updating
             </p>):(<p>
@@ -209,6 +242,7 @@ const UpdateCompany = () => {
           }
         </button>
       </form>
+     }
     </div>
   );
 };

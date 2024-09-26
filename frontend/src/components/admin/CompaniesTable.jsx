@@ -5,6 +5,8 @@ import { Table, TableBody, TableCaption, TableCell, TableHead, TableHeader, Tabl
 import { useSelector } from 'react-redux';
 import Companies from './Companies';  // Assuming this imports default company data for fallback
 import { useNavigate } from 'react-router-dom';
+import { Hourglass, LineWave, TailSpin } from 'react-loader-spinner'
+import Loader from '../Loader';
 // import { Avatar, AvatarImage } from '';
 // import { PopoverContent,  } from '../ui/popover';
 // import { Avatar, AvatarImage } from '../ui/avatar';
@@ -12,7 +14,7 @@ import { useNavigate } from 'react-router-dom';
 
 const CompaniesTable = () => {
   // Accessing companies and searchBycompanyName from Redux store
-  const { companies, searchBycompanyName } = useSelector(state => state.company);
+  const { companies, searchBycompanyName,isLoading } = useSelector(state => state.company);
 const navigate = useNavigate()
 
   const [filterCompany, setFilterCompany] = useState(companies || []);
@@ -52,7 +54,7 @@ const navigate = useNavigate()
   return (
     <div>
       <Table>
-        <TableCaption>A list of your recent registered companies</TableCaption>
+        <TableCaption>{isLoading ? <Loader />:<p>A list of your recent registered companies</p>}</TableCaption>
         <TableHeader>
           <TableRow>
             <TableHead>Logo</TableHead>
@@ -62,7 +64,7 @@ const navigate = useNavigate()
           </TableRow>
         </TableHeader>
         <TableBody>
-          {filterCompany && filterCompany.map(company => (
+          {!isLoading&&filterCompany && filterCompany.map(company => (
             <TableRow key={company._id} onClick={()=>navigate(`/admin/company/${company.name}/jobs/${company._id}`)} className={"cursor-pointer"}>
               <TableCell>
                 <img 

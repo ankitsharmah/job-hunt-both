@@ -26,6 +26,7 @@ const JobByCompany = () => {
                     if(res.data.success){
                         setJobs(res.data.jobs);
                         dispatch(setJobsByCompany(res.data.jobs))
+                        
                     }
                 } catch (error) {
                     console.log(error)
