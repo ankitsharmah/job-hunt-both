@@ -123,7 +123,7 @@ const ApplicationsByJobTable = () => {
                     >
                    {
                     statusLoader ? <div> <button className="w-full flex "> <Loader2 className='mr-2 h-4 w-4 animate-spin' /> Please wait </button> </div>:  <div className='felx w-full items-center justify-center'> <button className="w-full flex items-center justify-center gap-2 "> 
-                    <Zap className="w-4 h-4" />Reject
+                    <Zap className="w-4 h-4" />Accept
                     </button> 
                   </div> 
                    }

@@ -34,7 +34,7 @@ const Home = () => {
       <h1 className='text-4xl md:text-5xl font-bold'>Search, Apply & <br /> Get Your <span className='text-[#6A38C2]'> 
       Dream Jobs</span></h1>
     <p>
-    Find your perfect Job across the world! 
+    Unlock Global Opportunities, Land Your Dream Job Anywhere!
 
     </p>
 

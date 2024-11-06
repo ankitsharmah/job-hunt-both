@@ -16,7 +16,7 @@ export const register = async (req, res) => {
         }
         
         const file = req.file;
-        var sec_url = ""; // Declare sec_url properly
+        var sec_url = ""; 
         if(file){
             const fileUri = getDataUri(file);
             const cloudResponse = await cloudinary.uploader.upload(fileUri.content);
@@ -123,15 +123,31 @@ export const register = async (req, res) => {
     export const logOut=(req,res) => {
 
         try {
-            return res.status(200).cookie("token","deleted",{maxAge:0}).json({
-                message:"successfully logedout",
-                tokenn:"deleted",
-                success:true
-            })
-        } catch (error) {
-            console.log(error)
-        }
+            return res.status(200)
+                .cookie('token', '', { 
+                    maxAge: 0, // Set expiration to the past
+                    httpOnly: true, 
+                    sameSite: 'none', // Ensure this is consistent with login
+                    secure: true // Should be true in production (HTTPS)
+    
+                })
+                .json({
+                    message: "Successfully logged out",
+                    success: true
+                });
+    } catch (error) {
+        console.log(error);
+        return res.status(500).json({
+            message: "Error logging out",
+            success: false
+        });
     }
+
+   
+
+
+};
+
 
     // export const updateProfile = async (req, res) => {
     //     console.log("im called")
@@ -193,6 +209,7 @@ export const register = async (req, res) => {
     //         console.log(error);
     //     }
     // }
+    
 
     export const updateProfile = async (req, res) => {
         try {

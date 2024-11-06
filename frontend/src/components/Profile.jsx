@@ -12,7 +12,7 @@ import AppliedJobTable from './AppliedJobTable'
 import UpdateProfileDialog from './UpdateProfileDialog'
 import axios from 'axios'
 import { APPLICATION_API_END_POINT } from '@/utils/constants'
-import { setAppliedJobs } from '@/redux/jobSlice'
+import { setAppliedJobs, setGettingAppliedJobs } from '@/redux/jobSlice'
 // import useGetAppliedJobs from '@/hooks/useGetAppliedJobs'
 
 // const skills = ["Html", "Css", "Javascript", "Reactjs"]
@@ -29,15 +29,23 @@ const Profile = () => {
     const{loggedin}=useSelector(state=>state.auth)
     useEffect(()=>{
         async function getApplied(){
+            dispatch(setGettingAppliedJobs(true))
                     try {
                         const response = await axios.get(`${APPLICATION_API_END_POINT}/get-applied-job`,{withCredentials:true});
                         // console.log("setting data ",response.data.message)
                         if(response.data.success){
                             // setApplied(response.data.applications)
-                            dispatch(setAppliedJobs(response.data.application                            ))
+                            dispatch(setAppliedJobs(response.data.application        
+                                
+                                                ))
+            dispatch(setGettingAppliedJobs(false))
+
                         }
                 } catch (error) {
                     console.log(error)
+                }finally{
+            dispatch(setGettingAppliedJobs(false))
+
                 }
                  }
                  getApplied();

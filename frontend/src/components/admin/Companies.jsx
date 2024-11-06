@@ -45,8 +45,8 @@ const Companies = () => {
       <div className='flex justify-between'>
         <input
           type="text"
-          placeholder='hello'
-          className='outline w-fit'
+          placeholder='search name'
+          className='outline w-fit  rounded-tr-md rounded-br-md'
           onChange={handleNameChange} // Use the handler function
           value={name} // Make sure input is controlled
         />

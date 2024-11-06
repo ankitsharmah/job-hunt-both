@@ -40,8 +40,8 @@ const Navbar = () => {
         // dispatch(resetCompanyState());
 
         // Navigate to home page after logout
-        window.location.reload(); // Reloads the current page
         navigate("/");
+        window.location.reload(); // Reloads the current page
       } else {
         toast.error("Logout failed");
       }
@@ -141,14 +141,14 @@ const Navbar = () => {
                       <Link to="/profile" onClick={()=>{setOpen(false)}}>View Profile</Link>
                     </button>
                   )}
-                  <ul className="flex font-medium pl-4 flex-col   md:hidden underline    gap-5">
+                  <ul className="flex font-medium pl-4 flex-col mb-2   md:hidden underline    gap-5">
                     {image?.role === "recruiter" ? (
                       <>
-                        <li>
-                         <Home /> <Link to="/admin/companies">Home</Link>
+                        <li className="flex gap-4">
+                         <Home /> <Link to="/admin/companies" onClick={()=>{setOpen(false)}}>Home</Link>
                         </li>
-                        <li>
-                          <Link to="/admin/jobs" onClick={()=>{setOpen(false)}}>Jobs</Link>
+                        <li className="flex gap-4">
+                        <Briefcase /><Link to="/admin/jobs" onClick={()=>{setOpen(false)}}>Jobs</Link>
                         </li>
                       </>
                     ) : (

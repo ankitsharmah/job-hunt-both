@@ -68,7 +68,7 @@ const navigate = useNavigate()
             <TableRow key={company._id} onClick={()=>navigate(`/admin/company/${company.name}/jobs/${company._id}`)} className={"cursor-pointer"}>
               <TableCell>
                 <img 
-                className='rounded-full h-16 w-16'
+                className='rounded-full md:h-16 h-12 md:w-16'
                  src={company.logo} 
                    alt={company.name} 
                 
